@@ -1,6 +1,6 @@
 from entidades.moto import Moto
 
-class controladorMoto():
+class ControladorMoto():
     def __init__(self):
           self.frota_motos = []
 

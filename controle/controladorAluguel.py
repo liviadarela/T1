@@ -7,7 +7,7 @@ from entidades.caminhao import Caminhao
 from entidades.automovel import Automovel
 
 
-class controladorAluguel():
+class ControladorAluguel():
     def __init__(self):
         self.alugueis = []
 

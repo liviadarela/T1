@@ -2,16 +2,16 @@ from datetime import date
 from entidades.cnh import Cnh 
 
 class Cliente:
-    def __init__(self, nome: str, cpf: int, data_nascimento: date, endereco: str, cnh: Cnh):
-        if isinstance(nome, str):
+    def __init__(self, nome: str, cpf: str, data_nascimento: date, endereco: str, cnh: Cnh):
+        if isinstance(nome, str) and nome.replace(" ", "").isalpha():
             self.__nome = nome
         else:
-            raise ValueError("Nome deve ser uma string")
+            raise ValueError("O nome deve conter apenas letras.")
 
-        if isinstance(cpf, int):
+        if isinstance(cpf, str) and cpf.isdigit():  
             self.__cpf = cpf
         else:
-            raise ValueError("CPF deve ser um número inteiro")
+            raise ValueError("CPF deve conter apenas números")
 
         if isinstance(data_nascimento, date):
             self.__data_nascimento = data_nascimento
@@ -40,15 +40,15 @@ class Cliente:
             raise ValueError("Nome deve ser uma string")
 
     @property
-    def cpf(self) -> int:
+    def cpf(self) -> str:
         return self.__cpf
 
     @cpf.setter
-    def cpf(self, cpf: int) -> None:
-        if isinstance(cpf, int):
+    def cpf(self, cpf: str) -> None:
+        if isinstance(cpf, str) and cpf.isdigit():
             self.__cpf = cpf
         else:
-            raise ValueError("CPF deve ser um número inteiro")
+            raise ValueError("CPF deve conter apenas números.")
 
     @property
     def data_nascimento(self) -> date:
@@ -82,3 +82,4 @@ class Cliente:
             self.__cnh = cnh
         else:
             raise ValueError("CNH deve ser uma instância da classe Cnh")
+

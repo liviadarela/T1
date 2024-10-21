@@ -1,9 +1,8 @@
 from entidades.carro import Carro
 
-class controladorCarro():
+class ControladorCarro():
     def __init__(self):
         self.frota_carros = []
-
 
     def incluir_automovel(self, categoria: str, placa: str, modelo: str, marca: str, ano:int, valor_por_dia: float, status="Disponível"):
         for carro in self.frota_carros:

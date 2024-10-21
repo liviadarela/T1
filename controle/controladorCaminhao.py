@@ -1,6 +1,6 @@
 from entidades.caminhao import Caminhao
 
-class controladorCaminhao():
+class ControladorCaminhao():
     def __init__(self):
           self.frota_caminhoes = []
 
