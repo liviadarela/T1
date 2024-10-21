@@ -22,7 +22,6 @@ class TelaCliente:
         categoria_cnh = input("Categoria da CNH (A, B, C, etc.): ")
         validade_cnh = input("Validade da CNH (dd/mm/aaaa): ")
     
-
         return {
             "nome": nome,
             "cpf": cpf,

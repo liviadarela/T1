@@ -7,7 +7,6 @@ class ControladorCliente():
     def __init__(self, controlador_sistema):  
         self.__clientes = []  
         self.__tela_cliente = TelaCliente()  
-        self.__controlador_sistema = controlador_sistema  
 
     def pega_cliente_por_cpf(self, cpf: str):
         for cliente in self.__clientes:

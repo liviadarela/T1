@@ -2,11 +2,22 @@ from datetime import date
 
 class Cnh():
     def __init__(self, numero, categoria, validade):
-        if not isinstance(numero, str) or not isinstance(categoria, str) or not isinstance(validade, date):
+        self.__numero = None
+        self.__categoria = None
+        self.__validade = None
+
+        if isinstance(numero, str):
+            self.__numero = numero
+        else:
             raise ValueError("Não condiz com o tipo desejado")
-        self.__numero = numero
-        self.__categoria = categoria
-        self.__validade = validade
+        if isinstance(categoria, str):
+            self.__categoria = categoria
+        else:
+            raise ValueError("Não condiz com o tipo desejado")
+        if isinstance(validade, date):
+            self.__validade = validade
+        else:
+            raise ValueError("Não condiz com o tipo desejado")
 
     @property
     def numero(self):

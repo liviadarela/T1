@@ -7,6 +7,10 @@ from entidades.automovel import Automovel
 
 class Aluguel():
     def __init__(self, cliente: Cliente, automovel: Automovel, data_inicio: date, data_final: date):
+        self.__cliente = None
+        self.__automovel = None
+        self.__data_inicio = None
+        self.__data_final  = None
         if isinstance(cliente, Cliente):
             self.__cliente = cliente
         if isinstance(automovel, Automovel):
