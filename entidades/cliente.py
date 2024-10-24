@@ -3,6 +3,12 @@ from entidades.cnh import Cnh
 
 class Cliente:
     def __init__(self, nome: str, cpf: str, data_nascimento: date, endereco: str, cnh: Cnh):
+        self.__nome = None
+        self.__cpf = None
+        self.__data_nascimento = None
+        self.__endereco = None
+        self.__cnh = None
+        
         if isinstance(nome, str) and nome.replace(" ", "").isalpha():
             self.__nome = nome
         else:

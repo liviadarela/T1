@@ -1,7 +1,7 @@
 
-class TelaCliente:
+class TelaCliente():
     def tela_opcoes(self):
-        print("-------- CLIENTES ----------")
+        print("\n-------- CLIENTES ----------")
         print("Escolha a opção")
         print("1 - Incluir Cliente")
         print("2 - Alterar Cliente")
@@ -12,8 +12,9 @@ class TelaCliente:
         opcao = int(input("Escolha a opção: "))
         return opcao
 
+    #fazer a validação aqui
     def pega_dados_cliente(self):
-        print("-------- DADOS CLIENTE ----------")
+        print("\n-------- DADOS CLIENTE ----------")
         nome = input("Nome: ")
         cpf = input("CPF (apenas números): ")
         data_nascimento = input("Data de Nascimento (dd/mm/aaaa): ")
@@ -33,7 +34,7 @@ class TelaCliente:
         }
 
     def mostra_cliente(self, dados_cliente):
-        print("-------- CLIENTE ----------")
+        print("\n-------- CLIENTE ----------")
         print("Nome: ", dados_cliente["nome"])
         print("CPF: ", dados_cliente["cpf"])
         print("Data de Nascimento: ", dados_cliente["data_nascimento"])

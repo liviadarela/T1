@@ -4,7 +4,7 @@ from entidades.cnh import Cnh
 from datetime import datetime
 
 class ControladorCliente():
-    def __init__(self, controlador_sistema):  
+    def __init__(self, controladorSistema):  
         self.__clientes = []  
         self.__tela_cliente = TelaCliente()  
 

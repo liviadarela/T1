@@ -1,7 +1,14 @@
 from abc import ABC, abstractmethod
 
 class Automovel(ABC):
+    @abstractmethod
     def __init__(self, placa: str, modelo: str, marca: str, ano:int, valor_por_dia: float, status="Disponível"):
+        self.__placa = None
+        self.__modelo = None
+        self.__marca = None
+        self.__ano = None
+        self.__valor_por_dia = None
+        
         if isinstance(placa, str):
             self.__placa = placa
         else:

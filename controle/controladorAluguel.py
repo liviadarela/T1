@@ -6,7 +6,6 @@ from entidades.moto import Moto
 from entidades.caminhao import Caminhao
 from entidades.automovel import Automovel
 
-
 class ControladorAluguel():
     def __init__(self):
         self.alugueis = []
@@ -30,7 +29,6 @@ class ControladorAluguel():
 
             print(f"Aluguel realizado.")
             return novo_aluguel
-        
         else:
             return("Não foi possivel ralizar o aluguel.")
 

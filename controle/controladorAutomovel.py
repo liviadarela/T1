@@ -1,56 +1,48 @@
-class ControladorAutomoveis:
-    def __init__(self, controlador_sistema):
-        self.__controlador_sistema = controlador_sistema
-        self.__controlador_carros = ControladorCarro(controlador_sistema)
-        self.__controlador_motos = ControladorMoto(controlador_sistema)
-        self.__controlador_caminhoes = ControladorCaminhao(controlador_sistema)
-
-    def abre_tela(self):
+from abc import ABC, abstractmethod
+from limite.telaAutomovel import TelaAutomovel
+from entidades.automovel import Automovel
+class ControladorAutomovel(ABC):
+    def __init__(self):
+        self.__tela_automovel = TelaAutomovel
+        self.__frota = []
+    
+    @property
+    def tela_automovel(self):
+        return self.__tela_automovel
+    
+    @abstractmethod
+    def incluir_automovel(self):
         while True:
-            print("-------- AUTOMÓVEIS ---------")
-            print("Escolha a opção")
-            print("1 - Incluir Carro")
-            print("2 - Excluir Carro")
-            print("3 - Incluir Moto")
-            print("4 - Excluir Moto")
-            print("5 - Incluir Caminhão")
-            print("6 - Excluir Caminhão")
-            print("7 - Listar Veículos")
-            print("8 - Listar Veículos Disponíveis")
-            print("0 - Retornar")
+            dados_automovel = self.__tela_automovel.pega_infomacao_automovel(self)
 
-            opcao = int(input("Escolha a opção: "))
+            placa = dados_automovel["placa"]
 
-            if opcao == 1:
-                self.__controlador_carros.incluir_carro()
-            elif opcao == 2:
-                self.__controlador_carros.excluir_carro()
-            elif opcao == 3:
-                self.__controlador_motos.incluir_moto()
-            elif opcao == 4:
-                self.__controlador_motos.excluir_moto()
-            elif opcao == 5:
-                self.__controlador_caminhoes.incluir_caminhao()
-            elif opcao == 6:
-                self.__controlador_caminhoes.excluir_caminhao()
-            elif opcao == 7:
-                self.listar_veiculos()
-            elif opcao == 8:
-                self.listar_veiculos_disponiveis()
-            elif opcao == 0:
-                print("Retornando ao menu principal...")
-                break
-            else:
-                print("Opção inválida. Tente novamente.")
+            modelo = dados_automovel["modelo"]
 
-    def listar_veiculos(self):
-        print("Lista de todos os veículos:")
-        self.__controlador_carros.lista_carros()
-        self.__controlador_motos.lista_motos()
-        self.__controlador_caminhoes.lista_caminhoes()
+            marca = dados_automovel["marca"]
+                 
+            ano = dados_automovel["ano"]
 
-    def listar_veiculos_disponiveis(self):
-        print("Lista de veículos disponíveis:")
-        self.__controlador_carros.lista_carros_disponiveis()
-        self.__controlador_motos.lista_motos_disponiveis()
-        self.__controlador_caminhoes.lista_caminhoes_disponiveis()
+            valor_por_dia = dados_automovel["valor_por_dia"]
+                
+            automovel = Automovel(placa, modelo, marca, ano, valor_por_dia)
+            self.__frota.append(automovel)
+
+            print("Automovel incluído com sucesso!")
+            break
+
+    @abstractmethod
+    def excluir_automovel(self):
+        placa_automovel = self.__tela_automovel.seleciona_automovel(self)
+        automovel = self.seleciona_automovel(placa_automovel)
+
+        if automovel is not None:
+            self.__frota.remove(automovel)
+            print("Automóvel excluído com sucesso!")
+        else:
+            print("ATENCAO: Automóvel não existente")
+    
+    def retornar(self):
+        print("Retornando ao menu principal...")
+        return
+    
