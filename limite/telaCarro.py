@@ -7,6 +7,8 @@ class TelaCarro(TelaAutomovel):
         print("Escolha a opção")
         print("1 - Cadastrar Carro novo")
         print("2 - Excluir Carro já cadastrado")
+        print("3 - Verificar frota de carros")
+        print("0 - Retornar")
 
         
         opcao = int(input("Escolha a opção: "))
@@ -19,6 +21,7 @@ class TelaCarro(TelaAutomovel):
         return dados_comuns
     
     def mostra_automovel(self, dados_automovel):
+        print("\n--------- Carros ---------")
         super().mostra_automovel(dados_automovel)
         print("Categoria: ", dados_automovel["categoria"])
     

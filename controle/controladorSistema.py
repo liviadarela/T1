@@ -1,15 +1,14 @@
 from limite.telaSistema import TelaSistema
-from limite.telaAutomovel import TelaAutomovel
 from controle.controladorCliente import ControladorCliente
 from controle.controladorCarro import ControladorCarro
-from controle.controladorAutomovel import ControladorAutomovel
-
+from limite.telaCarro import TelaCarro
 
 class ControladorSistema:
     def __init__(self):
         self.__tela_sistema = TelaSistema()
         self.__controlador_clientes = ControladorCliente(self)
         self.__controlador_carros = ControladorCarro(self)
+        self.__tela_carro = TelaCarro()
 
     @property
     def controlador_clientes(self):
@@ -26,7 +25,7 @@ class ControladorSistema:
         while True:
             opcao = self.__tela_sistema.tela_opcoes()
             if opcao == 1:
-                self.__tela_sistema.tela_opcoes_automovel()
+                opcao = self.__tela_sistema.tela_opcoes_automovel()
                 if opcao == 1:
                     self.__controlador_carros.abre_tela()
                 elif opcao == 2:
@@ -34,10 +33,10 @@ class ControladorSistema:
                 elif opcao == 3:
                     self.__controlador_caminhoes.abre_tela()
                 elif opcao == 0:
-                    self.__tela_sistema.tela_opcoes()
+                    continue
                 else:
-                        print("Opção inválida, tente novamente")
-                return
+                    print("Opção inválida, tente novamente")
+                continue  # Isso garante que o loop vol
             elif opcao == 2:
                 self.__controlador_clientes.abre_tela()
             elif opcao == 3:

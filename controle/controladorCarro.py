@@ -1,15 +1,14 @@
 from entidades.carro import Carro
 from limite.telaCarro import TelaCarro
 from controle.controladorAutomovel import ControladorAutomovel
+
 class ControladorCarro(ControladorAutomovel):
     def __init__(self, controlador_sistema):
         super().__init__() 
         self.__frota_carros = []
         self.__tela_carro = TelaCarro()
-
+ 
     def incluir_automovel(self):
-        super().incluir_automovel()
-
         while True:
             try:
                 dados_carro = self.__tela_carro.pega_infomacao_automovel()
@@ -27,7 +26,6 @@ class ControladorCarro(ControladorAutomovel):
                     categoria=categoria
                 )
 
-                #self._ControladorAutomoveis__frota.append(carro)
                 self.__frota_carros.append(carro)
                 print("Carro incluído com sucesso!")
                 break
@@ -36,15 +34,41 @@ class ControladorCarro(ControladorAutomovel):
                 print("Por favor, insira os dados novamente.\n")
 
     def excluir_automovel(self):
-        super().excluir_automovel()
-        
-    def listar_disponiveis(self):
-        return self.__frota_carros
+        placa_automovel = self.__tela_carro.seleciona_automovel()
+        automovel_encontrado = False
+
+        for automovel in self.__frota_carros:
+            if automovel.placa == placa_automovel:
+                self.__frota_carros.remove(automovel)
+                print("Automóvel excluído com sucesso!")
+                automovel_encontrado = True
+
+        if not automovel_encontrado:
+            print("ATENÇÃO: Automóvel não existente")
+
+    def listar(self):
+        if not self.__frota_carros:
+            print("Frota de carros está vazia.")
+        else:
+            for carro in self.__frota_carros:
+                self.__tela_carro.mostra_automovel({
+                    "placa": carro.placa,
+                    "modelo": carro.modelo,
+                    "marca": carro.marca,
+                    "ano": carro.ano,
+                    "valor_por_dia": carro.valor_por_dia,
+                    "categoria": carro.categoria,
+                })
+    
+    def retornar(self):
+        print("Retornando ao menu principal...")
+        return 
     
     def abre_tela(self):
         lista_opcoes = {
             1: self.incluir_automovel,
             2: self.excluir_automovel,
+            3: self.listar,
             0: self.retornar
         }
 
@@ -53,8 +77,8 @@ class ControladorCarro(ControladorAutomovel):
             funcao_escolhida = lista_opcoes.get(opcao)
             if funcao_escolhida:
                 funcao_escolhida()
-                if opcao == 0:  
+                if opcao == 0: 
                     break
+
             else:
                 print("Opção inválida. Tente novamente.")
-    

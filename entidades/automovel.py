@@ -104,11 +104,3 @@ class Automovel(ABC):
             self.__status = status
         else:
             raise ValueError("Não condiz com o tipo desejado")
-
-    @abstractmethod   
-    def incluir_automovel(self):
-        pass
-        
-    @abstractmethod   
-    def listar_disponiveis(self):
-        pass
