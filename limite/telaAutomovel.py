@@ -20,7 +20,6 @@ class TelaAutomovel(ABC):
 
     @abstractmethod
     def mostra_automovel(self, dados_automovel):
-        #print("-------- CLIENTE ----------") 
         print("Placa: ", dados_automovel["placa"])
         print("Modelo: ", dados_automovel["modelo"])
         print("Marca: ", dados_automovel["marca"])

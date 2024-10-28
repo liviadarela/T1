@@ -20,4 +20,8 @@ class ControladorAutomovel(ABC):
     @abstractmethod
     def retornar(self):
         pass
+
+    @abstractmethod
+    def listar(self):
+        pass
     

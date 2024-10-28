@@ -40,11 +40,11 @@ class ControladorCarro(ControladorAutomovel):
         for automovel in self.__frota_carros:
             if automovel.placa == placa_automovel:
                 self.__frota_carros.remove(automovel)
-                print("Automóvel excluído com sucesso!")
+                print("Carro excluído com sucesso!")
                 automovel_encontrado = True
 
         if not automovel_encontrado:
-            print("ATENÇÃO: Automóvel não existente")
+            print("ATENÇÃO: Carro não encontrado")
 
     def listar(self):
         if not self.__frota_carros:
