@@ -4,11 +4,12 @@ from entidades.cnh import Cnh
 from datetime import datetime
 
 class ControladorCliente():
-    def __init__(self, controladorSistema):  
+    def __init__(self, controladorSistema): 
+        self.__controlador_sistema = controladorSistema 
         self.__clientes = []  
         self.__tela_cliente = TelaCliente()  
 
-    def pega_cliente_por_cpf(self, cpf: str):
+    def pega_cliente_por_cpf(self, cpf):
         for cliente in self.__clientes:
             if cliente.cpf == cpf:
                 return cliente

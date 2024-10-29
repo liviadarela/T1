@@ -50,7 +50,8 @@ class ControladorMoto(ControladorAutomovel):
                     "marca": moto.marca,
                     "ano": moto.ano,
                     "valor_por_dia": moto.valor_por_dia,
-                    "seguro_adicional": moto.seguro_adicional
+                    "seguro_adicional": moto.seguro_adicional,
+                    "status": moto.status
                 })
     
     def retornar(self):
@@ -75,3 +76,9 @@ class ControladorMoto(ControladorAutomovel):
 
             else:
                 print("Opção inválida. Tente novamente.")
+
+    def pega_moto_placa(self, placa:str):
+        for moto in self.__frota_motos:
+            if moto.placa == placa:
+                return moto
+        return None

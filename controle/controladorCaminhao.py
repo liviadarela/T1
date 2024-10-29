@@ -58,6 +58,7 @@ class ControladorCaminhao(ControladorAutomovel):
                     "ano": caminhao.ano,
                     "valor_por_dia": caminhao.valor_por_dia,
                     "numero_de_eixos": caminhao.numero_de_eixos,
+                    "statur": caminhao.status
                 })
     
     def retornar(self):
@@ -82,3 +83,9 @@ class ControladorCaminhao(ControladorAutomovel):
 
             else:
                 print("Opção inválida. Tente novamente.")
+
+    def pega_caminhao_placa(self, placa:str):
+        for caminhao in self.__frota_caminhoes:
+            if caminhao.placa == placa:
+                return caminhao
+        return None

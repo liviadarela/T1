@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+
 class TelaAutomovel(ABC):
     
     @abstractmethod
@@ -16,6 +17,7 @@ class TelaAutomovel(ABC):
             "marca": marca,
             "ano": ano,
             "valor_por_dia": valor_por_dia,
+            "status" : "disponivel"
         }
 
     @abstractmethod
@@ -25,7 +27,8 @@ class TelaAutomovel(ABC):
         print("Marca: ", dados_automovel["marca"])
         print("Ano: ", dados_automovel["ano"])
         print("Valor por dia: ", dados_automovel["valor_por_dia"])
+        print("Status: ", dados_automovel["status"])
 
     def seleciona_automovel(self):
-        placa = input("Placa do automovel que deseja buscar: ")
+        placa = input("Digite a placa do automovel que deseja buscar: ")
         return placa

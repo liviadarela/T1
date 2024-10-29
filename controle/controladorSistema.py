@@ -3,6 +3,7 @@ from controle.controladorCliente import ControladorCliente
 from controle.controladorCarro import ControladorCarro
 from controle.controladorMoto import ControladorMoto
 from controle.controladorCaminhao import ControladorCaminhao
+from controle.controladorAluguel import ControladorAluguel
 
 class ControladorSistema:
     def __init__(self):
@@ -11,6 +12,7 @@ class ControladorSistema:
         self.__controlador_carros = ControladorCarro(self)
         self.__controlador_motos = ControladorMoto(self)
         self.__controlador_caminhoes = ControladorCaminhao()
+        self.__controlador_alugueis = ControladorAluguel(self)
 
 
     @property

@@ -58,6 +58,7 @@ class ControladorCarro(ControladorAutomovel):
                     "ano": carro.ano,
                     "valor_por_dia": carro.valor_por_dia,
                     "categoria": carro.categoria,
+                    "status": carro.status
                 })
     
     def retornar(self):
@@ -82,3 +83,9 @@ class ControladorCarro(ControladorAutomovel):
 
             else:
                 print("Opção inválida. Tente novamente.")
+
+    def pega_carro_placa(self, placa:str):
+        for carro in self.__frota_carros:
+            if carro.placa == placa:
+                return carro
+        return None
