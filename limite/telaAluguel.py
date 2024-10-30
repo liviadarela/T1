@@ -39,13 +39,14 @@ class TelaAluguel():
 
     def mostra_aluguel(self, dados_aluguel):
         print("\n------ ALUGUEL ------")
-        print("\n------ Dados Cliente ------")
+        print("------ Dados Cliente ------")
         print("Nome: ", dados_aluguel["nome"])
         print("Cpf: ", dados_aluguel["cpf"])
         print("\n------ Dados Automovel------")
         print("Placa: ", dados_aluguel["placa"])
         print("Data de Início:", dados_aluguel["data_inicio"])
         print("Data De Devolução: ", dados_aluguel["data_final"])
+        print("Valor Total: ")
 
     def seleciona_aluguel(self):
         cpf = input("CPF do cliente que está cadastrado no aluguel: ")

@@ -8,20 +8,27 @@ from controle.controladorAluguel import ControladorAluguel
 class ControladorSistema:
     def __init__(self):
         self.__tela_sistema = TelaSistema()
-        self.__controlador_clientes = ControladorCliente(self)
+        self.__controlador_cliente = ControladorCliente(self)
         self.__controlador_carros = ControladorCarro(self)
         self.__controlador_motos = ControladorMoto(self)
         self.__controlador_caminhoes = ControladorCaminhao()
         self.__controlador_alugueis = ControladorAluguel(self)
 
-
     @property
-    def controlador_clientes(self):
-        return self.__controlador_clientes
+    def controlador_cliente(self):
+        return self.__controlador_cliente
   
     @property
     def controlador_carros(self):
         return self.__controlador_carros
+    
+    @property
+    def controlador_motos(self):
+        return self.__controlador_motos
+
+    @property
+    def controlador_caminhoes(self):
+        return self.__controlador_caminhoes
 
     def inicia_sistema(self):
         self.abre_tela() 
@@ -43,7 +50,7 @@ class ControladorSistema:
                     print("Opção inválida, tente novamente")
                 continue 
             elif opcao == 2:
-                self.__controlador_clientes.abre_tela()
+                self.__controlador_cliente.abre_tela()
             elif opcao == 3:
                 self.__controlador_alugueis.abre_tela()
             elif opcao == 0:

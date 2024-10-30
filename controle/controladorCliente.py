@@ -10,6 +10,7 @@ class ControladorCliente():
         self.__tela_cliente = TelaCliente()  
 
     def pega_cliente_por_cpf(self, cpf):
+        print(f"Procurando cliente com CPF: {cpf}")
         for cliente in self.__clientes:
             if cliente.cpf == cpf:
                 return cliente
@@ -37,6 +38,7 @@ class ControladorCliente():
                 cnh = Cnh(dados_cliente["numero_cnh"], dados_cliente["categoria_cnh"], validade_cnh)
                 cliente = Cliente(nome, cpf, data_nascimento, dados_cliente["endereco"], cnh)
 
+                print(f"CPF do cliente adicionado: {cpf}")
                 self.__clientes.append(cliente)
 
                 print("Cliente incluído com sucesso!")
@@ -86,6 +88,7 @@ class ControladorCliente():
         self.lista_clientes()
         cpf_cliente = self.__tela_cliente.seleciona_cliente()
         cliente = self.pega_cliente_por_cpf(cpf_cliente)
+        
 
         if cliente is not None:
             self.__clientes.remove(cliente)

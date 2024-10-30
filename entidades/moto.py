@@ -7,7 +7,6 @@ class Moto(Automovel):
         if isinstance(seguro_adicional, float):
             self.__seguro_adicional = seguro_adicional
     
-
     @property
     def seguro_adicional(self):
         return self.__seguro_adicional 

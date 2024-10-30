@@ -45,6 +45,10 @@ class TelaCliente():
         print("\n")
 
     def seleciona_cliente(self):
-        cpf = input("CPF do cliente que deseja selecionar: ")
-        return cpf
+        while True:
+            cpf = input("CPF do cliente que deseja selecionar (apenas números): ")
+            if cpf.isdigit() and len(cpf) == 11:
+                return cpf
+            else:
+                print("Erro: CPF inválido. Certifique-se de digitar apenas 11 números.")
 
