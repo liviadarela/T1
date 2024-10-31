@@ -9,15 +9,17 @@ class Cnh():
         if isinstance(numero, str):
             self.__numero = numero
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Numero da CNH não condiz com o tipo desejado")
+        
         if isinstance(categoria, str):
             self.__categoria = categoria
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Categoria não condiz com o tipo desejado")
+        
         if isinstance(validade, date):
             self.__validade = validade
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Data de validade não condiz com o tipo desejado")
 
     @property
     def numero(self):
@@ -28,7 +30,7 @@ class Cnh():
         if isinstance(numero, int):
             self.__numero = numero
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Numero da CNH não condiz com o tipo desejado")
 
     @property
     def categoria(self): 
@@ -39,7 +41,7 @@ class Cnh():
         if isinstance(categoria, str):
             self.__categoria = categoria
         else: 
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Categoria não condiz com o tipo desejado")
 
     @property
     def validade(self):
@@ -50,6 +52,6 @@ class Cnh():
         if isinstance(validade, date):
             self.__validade = validade
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Validade não condiz com o tipo desejado")
 
         

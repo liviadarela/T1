@@ -3,14 +3,14 @@ from limite.telaAutomovel import TelaAutomovel
 class TelaMoto(TelaAutomovel):
 
     def tela_opcoes(self):
-        print("\n--------- MOTOS ---------")
-        print("Escolha a opção")
-        print("1 - Cadastrar Moto Nova")
-        print("2 - Excluir Moto já Cadastrada")
-        print("3 - Verificar Frota de Motos")
+        print("\n---------OPÇÕES MOTOS ---------")
+        print("Escolha a opção:")
+        print("1 - Cadastrar moto nova")
+        print("2 - Excluir moto já cadastrada")
+        print("3 - Verificar frota de motos")
         print("0 - Retornar ao menu principal")
 
-        opcao = int(input("Escolha a opção: "))
+        opcao = int(input("\nEscolha a opcão que deseja utilizar: "))
         return opcao
     
     def pega_infomacao_automovel(self):
@@ -20,7 +20,7 @@ class TelaMoto(TelaAutomovel):
         return dados_comuns
     
     def mostra_automovel(self, dados_automovel):
-        print("\n--------- MOTO ---------")
+        print("\nMOTO ----------------------")
         super().mostra_automovel(dados_automovel)
         print("Seguro adicional: ", dados_automovel["seguro_adicional"])
-    
+

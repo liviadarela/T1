@@ -10,7 +10,6 @@ class ControladorCliente():
         self.__tela_cliente = TelaCliente()  
 
     def pega_cliente_por_cpf(self, cpf):
-        print(f"Procurando cliente com CPF: {cpf}")
         for cliente in self.__clientes:
             if cliente.cpf == cpf:
                 return cliente
@@ -38,10 +37,9 @@ class ControladorCliente():
                 cnh = Cnh(dados_cliente["numero_cnh"], dados_cliente["categoria_cnh"], validade_cnh)
                 cliente = Cliente(nome, cpf, data_nascimento, dados_cliente["endereco"], cnh)
 
-                print(f"CPF do cliente adicionado: {cpf}")
                 self.__clientes.append(cliente)
 
-                print("Cliente incluído com sucesso!")
+                print("\nCliente incluído com sucesso!")
                 break
             except ValueError as e:
                 print(f"Erro: {e}")
@@ -64,14 +62,14 @@ class ControladorCliente():
             cnh = Cnh(novos_dados_cliente["numero_cnh"], novos_dados_cliente["categoria_cnh"], self.__converter_data(novos_dados_cliente["validade_cnh"]))
             cliente.cnh = cnh
             
-            print("Cliente alterado com sucesso!")
+            print("\nCliente alterado com sucesso!")
             self.lista_clientes()
         else:
-            print("ATENCAO: Cliente não existente")
+            print("\nATENCAO: Cliente não existente")
 
     def lista_clientes(self):
         if not self.__clientes:
-            print("Lista de clientes está vazia.")
+            print("\nLista de clientes está vazia.")
         else:
             for cliente in self.__clientes:
                 self.__tela_cliente.mostra_cliente({
@@ -92,13 +90,13 @@ class ControladorCliente():
 
         if cliente is not None:
             self.__clientes.remove(cliente)
-            print("Cliente excluído com sucesso!")
+            print("\nCliente excluído com sucesso!")
             self.lista_clientes()
         else:
-            print("ATENCAO: Cliente não existente")
+            print("\nATENCAO: Cliente não existente")
 
     def retornar(self):
-        print("Retornando ao menu principal...")
+        print("\nRetornando ao menu principal...")
         return
          
     def abre_tela(self):
@@ -118,7 +116,7 @@ class ControladorCliente():
                 if opcao == 0:  
                     break
             else:
-                print("Opção inválida. Tente novamente.")
+                print("\nOpção inválida. Tente novamente!")
 
     def __converter_data(self, data_str: str):
         dia, mes, ano = map(int, data_str.split('/'))

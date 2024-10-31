@@ -3,14 +3,14 @@ from limite.telaAutomovel import TelaAutomovel
 class TelaCaminhao(TelaAutomovel):
 
     def tela_opcoes(self):
-        print("\n--------- CAMINHÕES ---------")
-        print("Escolha a opção")
-        print("1 - Cadastrar Caminhão Novo")
-        print("2 - Excluir Caminhãojá Cdastrado")
-        print("3 - Verificar Frota de Caminhões")
+        print("\n--------- OPÇÕES CAMINHÕES ---------")
+        print("Escolha a opção:")
+        print("1 - Cadastrar caminhão novo")
+        print("2 - Excluir caminhão já cadastrado")
+        print("3 - Verificar frota de caminhões")
         print("0 - Retornar ao menu principal")
 
-        opcao = int(input("Escolha a opção: "))
+        opcao = int(input("\nEscolha a opcão que deseja utilizar: "))
         return opcao
     
     def pega_infomacao_automovel(self):
@@ -20,7 +20,7 @@ class TelaCaminhao(TelaAutomovel):
         return dados_comuns
     
     def mostra_automovel(self, dados_automovel):
-        print("\n--------- CAMINHÃO ---------")
+        print("\nCAMINHÃO ------------------")
         super().mostra_automovel(dados_automovel)
         print("Numero de Eixos: ", dados_automovel["numero_de_eixos"])
     

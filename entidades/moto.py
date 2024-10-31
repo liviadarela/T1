@@ -6,6 +6,8 @@ class Moto(Automovel):
         self.__seguro_adicional = None
         if isinstance(seguro_adicional, float):
             self.__seguro_adicional = seguro_adicional
+        else:
+            raise ValueError("\nSeguro adicional não condiz com o tipo desejado")
     
     @property
     def seguro_adicional(self):
@@ -15,5 +17,7 @@ class Moto(Automovel):
     def seguro_adicional(self, seguro_adicional: float):
         if isinstance(seguro_adicional, float):
             self.__seguro_adicional = seguro_adicional 
+        else:
+            raise ValueError("\nSeguro adicional não condiz com o tipo desejado")
     
     

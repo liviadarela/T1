@@ -63,17 +63,35 @@ class ControladorAluguel():
 
             novo_aluguel = Aluguel(cliente, automovel, data_inicio, data_final)
 
-            if self.categoria_valida(cliente, automovel) and novo_aluguel.cliente.cnh.validade > date.today() and automovel.status == "Disponível":
-                automovel.status = "Indisponível"
-                self.__alugueis.append(novo_aluguel)
-                print(f"O valor final ficou: R${valor_total:.2f}")
-                print("Realizando pagamento")       
-                print("\nAluguel registrado com sucesso!")
-                return novo_aluguel
+            if self.categoria_valida(cliente, automovel):
+                if novo_aluguel.cliente.cnh.validade > date.today():
+                    if automovel.status == "Disponível":
+                        for aluguel in self.__alugueis:
+                            if aluguel.cliente == novo_aluguel.cliente:
+                                print("\nAtenção: Cliente já está alugando outro veículo.")
+                                print("\nAluguel não realizado.")
+                                return
+                            
+                        automovel.status = "Indisponível"
+                        self.__alugueis.append(novo_aluguel)
+                        print(f"\nO valor final totalizou: R${valor_total:.2f}")
+                        print("Realizando pagamento...")       
+                        print("\nAluguel realizado com sucesso!")
+                        return novo_aluguel
+                    else:
+                        print("\nAtenção: Automóvel não está disponível para ser alugado.")
+                        print("\nAluguel não realizado.")
+                        return
+                else:
+                    print("\nAtenção: CNH do cliente está fora da validade.")
+                    print("\nAluguel não realizado.")
+                    return
             else:
-                print("\nNão foi possível realizar o aluguel.")
+                print("\nAtenção: Categoria da CNH não é compatível com tipo de veículo.")
+                print("\nAluguel não realizado.")
                 return
             
+
     def categoria_valida(self, cliente: Cliente, automovel: Automovel) -> bool:
         if isinstance(automovel, Caminhao) and cliente.cnh.categoria == "C":
             return True
@@ -82,7 +100,6 @@ class ControladorAluguel():
         elif isinstance(automovel, Carro) and (cliente.cnh.categoria == "B" or cliente.cnh.categoria == "AB"):
             return True
         else:
-            print("Atenção:Categoria não condiz com o tipo de veíuclo.")
             return False
 
     def devolucao(self):
@@ -125,9 +142,10 @@ class ControladorAluguel():
         if data_inicio_intervalo > data_final_intervalo:
             print("\nErro: A data de início do intervalo não pode ser posterior à data final.")
             return []
-    
+        
+        print("\n------ ALUGUEIS POR PERÍODO ------")
         for aluguel in self.__alugueis:
-            if aluguel.data_inicio >= data_inicio_intervalo or aluguel.data_final <= data_final_intervalo:
+            if aluguel.data_inicio >= data_inicio_intervalo and aluguel.data_inico <= data_final_intervalo:
                 alugueis_no_intervalo.append(aluguel)
                 self.__tela_aluguel.mostra_aluguel({
                     "nome": aluguel.cliente.nome,

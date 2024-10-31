@@ -12,32 +12,33 @@ class Automovel(ABC):
         if isinstance(placa, str):
             self.__placa = placa
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Placa não condiz com o tipo desejado")
         
         if isinstance(modelo, str):
             self.__modelo = modelo
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Modelo não condiz com o tipo desejado")
     
         if isinstance(marca, str):
             self.__marca = marca
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Marca não condiz com o tipo desejado")
     
         if isinstance(ano, int):
             self.__ano = ano
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Ano não condiz com o tipo desejado")
         
         if isinstance(valor_por_dia, float):
             self.__valor_por_dia = valor_por_dia
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Valor do automovel por dia não condiz com o tipo desejado")
         
         if isinstance(status, str):
             self.__status = status
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+        
+            raise ValueError("Status não condiz com o tipo desejado")
         
     @property
     def placa(self):
@@ -48,7 +49,7 @@ class Automovel(ABC):
         if isinstance(placa, str):
             self.__placa = placa
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Placa não condiz com o tipo desejado")
 
     @property
     def modelo(self):
@@ -59,7 +60,7 @@ class Automovel(ABC):
         if isinstance(modelo, str):
             self.__modelo = modelo
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Modelo não condiz com o tipo desejado")
 
     @property
     def marca(self):
@@ -70,7 +71,7 @@ class Automovel(ABC):
         if isinstance(marca, str):
             self.__marca = marca
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Marca não condiz com o tipo desejado")
 
     @property
     def ano(self):
@@ -81,7 +82,7 @@ class Automovel(ABC):
         if isinstance(ano, int):
             self.__ano = ano
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Ano não condiz com o tipo desejado")
         
     @property
     def valor_por_dia(self):
@@ -92,7 +93,7 @@ class Automovel(ABC):
         if isinstance(valor_por_dia, float):
             self.__valor_por_dia = valor_por_dia
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Valor do automovel por dia não condiz com o tipo desejado")
         
     @property
     def status(self):
@@ -103,4 +104,4 @@ class Automovel(ABC):
         if isinstance(status, str):
             self.__status = status
         else:
-            raise ValueError("Não condiz com o tipo desejado")
+            raise ValueError("Status não condiz com o tipo desejado")

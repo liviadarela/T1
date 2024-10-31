@@ -4,11 +4,11 @@ class TelaAutomovel(ABC):
     
     @abstractmethod
     def pega_infomacao_automovel(self):
-        print("\n-------- AUTOMÓVEL----------")
+        print("\n-------- DADOS VEÍCULO ----------")
         placa = input("Placa: ")
         modelo = input("Modelo: ")
         marca = input("Marca: ")
-        ano = input("Ano: ")
+        ano = int(input("Ano: "))
         valor_por_dia = input("Valor por dia: ")
     
         return {
@@ -30,5 +30,5 @@ class TelaAutomovel(ABC):
         print("Status: ", dados_automovel["status"])
 
     def seleciona_automovel(self):
-        placa = input("Digite a placa do automovel que deseja buscar: ")
+        placa = input("Digite a placa do automóvel que deseja buscar: ")
         return placa

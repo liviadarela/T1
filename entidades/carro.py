@@ -7,6 +7,8 @@ class Carro(Automovel):
 
         if isinstance(categoria, str):
             self.__categoria = categoria
+        else:
+            raise ValueError("Categoria não condiz com o tipo desejado")
 
     @property
     def categoria(self):
@@ -16,5 +18,7 @@ class Carro(Automovel):
     def categoria(self, categoria: str):
         if isinstance(categoria, str):
             self.__categoria = categoria 
+        else:
+            raise ValueError("Categoria não condiz com o tipo desejado")
 
     

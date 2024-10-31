@@ -7,6 +7,8 @@ class Caminhao(Automovel):
         
         if isinstance(numero_de_eixos, int):
             self.__numero_de_eixos = numero_de_eixos
+        else: 
+            raise ValueError("Numero de eixos não condiz com o tipo desejado")
 
     @property
     def numero_de_eixos(self):
@@ -16,4 +18,6 @@ class Caminhao(Automovel):
     def numero_de_eixosl(self, numero_de_eixos: int):
         if isinstance(numero_de_eixos, int):
             self.__numero_de_eixos = numero_de_eixos
+        else: 
+            raise ValueError("Numero de eixos não condiz com o tipo desejado")
     

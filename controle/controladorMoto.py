@@ -23,7 +23,7 @@ class ControladorMoto(ControladorAutomovel):
             )
 
             self.__frota_motos.append(moto)
-            print("Moto incluído com sucesso!")
+            print("\nMoto incluída com sucesso!")
             break
 
     def excluir_automovel(self):
@@ -33,16 +33,17 @@ class ControladorMoto(ControladorAutomovel):
         for automovel in self.__frota_motos:
             if automovel.placa == placa_automovel:
                 self.__frota_motos.remove(automovel)
-                print("Moto excluído com sucesso!")
+                print("\nMoto excluída com sucesso!")
                 automovel_encontrado = True
 
         if not automovel_encontrado:
-            print("ATENÇÃO: Moto não encontrada")
+            print("\nATENÇÃO: Moto não encontrada")
 
     def listar(self):
         if not self.__frota_motos:
-            print("Frota de motos está vazia.")
+            print("\nFrota de motos está vazia.")
         else:
+            print("\n------ FROTA DE MOTOS ------")
             for moto in self.__frota_motos:
                 self.__tela_moto.mostra_automovel({
                     "placa": moto.placa,
@@ -55,7 +56,7 @@ class ControladorMoto(ControladorAutomovel):
                 })
     
     def retornar(self):
-        print("Retornando ao menu principal...")
+        print("\nRetornando ao menu principal...")
         return 
     
     def abre_tela(self):
@@ -75,7 +76,7 @@ class ControladorMoto(ControladorAutomovel):
                     break
 
             else:
-                print("Opção inválida. Tente novamente.")
+                print("\nOpção inválida. Tente novamente!")
 
     def pega_moto_placa(self, placa:str):
         for moto in self.__frota_motos:

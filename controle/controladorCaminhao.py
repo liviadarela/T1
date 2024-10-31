@@ -27,7 +27,7 @@ class ControladorCaminhao(ControladorAutomovel):
                 )
 
                 self.__frota_caminhoes.append(caminhao)
-                print("Caminhai incluído com sucesso!")
+                print("\nCaminhão incluído com sucesso!")
                 break
             except ValueError as e:
                 print(f"Erro: {e}")
@@ -40,16 +40,17 @@ class ControladorCaminhao(ControladorAutomovel):
         for automovel in self.__frota_caminhoes:
             if automovel.placa == placa_automovel:
                 self.__frota_caminhoes.remove(automovel)
-                print("Caminhao excluído com sucesso!")
+                print("\nCaminhao excluído com sucesso!")
                 automovel_encontrado = True
 
         if not automovel_encontrado:
-            print("ATENÇÃO: Caminhao não encontrado")
+            print("\nATENÇÃO: Caminhao não encontrado")
 
     def listar(self):
         if not self.__frota_caminhoes:
-            print("Frota de caminhões está vazia.")
+            print("\nFrota de caminhões está vazia.")
         else:
+            print("\n------ FROTA DE CAMINHÕES ------")
             for caminhao in self.__frota_caminhoes:
                 self.__tela_caminhao.mostra_automovel({
                     "placa": caminhao.placa,
@@ -58,11 +59,11 @@ class ControladorCaminhao(ControladorAutomovel):
                     "ano": caminhao.ano,
                     "valor_por_dia": caminhao.valor_por_dia,
                     "numero_de_eixos": caminhao.numero_de_eixos,
-                    "statur": caminhao.status
+                    "status": caminhao.status
                 })
     
     def retornar(self):
-        print("Retornando ao menu principal...")
+        print("\nRetornando ao menu principal...")
         return 
     
     def abre_tela(self):
@@ -82,7 +83,7 @@ class ControladorCaminhao(ControladorAutomovel):
                     break
 
             else:
-                print("Opção inválida. Tente novamente.")
+                print("\nOpção inválida. Tente novamente!")
 
     def pega_caminhao_placa(self, placa:str):
         for caminhao in self.__frota_caminhoes:

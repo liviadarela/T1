@@ -47,14 +47,14 @@ class ControladorSistema:
                 elif opcao == 0:
                     continue
                 else:
-                    print("Opção inválida, tente novamente")
+                    print("\nOpção inválida. Tente novamente!")
                 continue 
             elif opcao == 2:
                 self.__controlador_cliente.abre_tela()
             elif opcao == 3:
                 self.__controlador_alugueis.abre_tela()
             elif opcao == 0:
-                print("Sistema encerrado")
+                print("\nSistema encerrado")
                 break
             else:
-                print("Opção inválida, tente novamente")
+                print("\nOpção inválida. Tente novamente")

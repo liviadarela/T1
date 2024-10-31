@@ -2,7 +2,7 @@
 
 class TelaAluguel():
     def tela_opcoes(self):
-        print("\n--------- AlUGUEL ---------")
+        print("\n--------- OPÇÕES AlUGUEIS ---------")
         print("Escolha a opção")
         print("1 - Realizar Aluguel")
         print("2 - Devolução do Aluguel")
@@ -10,15 +10,15 @@ class TelaAluguel():
         print("4 - Resgistro de Alugueis por período")
         print("0 - Retornar ao Menu Principal")
 
-        opcao = int(input("Escolha a opção: "))
+        opcao = int(input("\nEscolha a opcão que deseja utilizar: "))
         return opcao
      
     def pega_dados_aluguel(self):
         print("\n------ DADOS PARA ALUGUEL ------")
-        cliente = input("Cpf do Cliente:")
+        cliente = input("CPF do cliente:")
         automovel = input("Placa do automovel: ")
-        data_inicio = input("Digite a Data de Início (dd/mm/aaaa): ")
-        data_final= input("Digite a Data de Devolução (dd/mm/aaaa): ")
+        data_inicio = input("Digite a data de início (dd/mm/aaaa): ")
+        data_final= input("Digite a data de devolução (dd/mm/aaaa): ")
 
         return {
             "cliente": cliente,
@@ -29,8 +29,8 @@ class TelaAluguel():
     
     def intervalo(self):
         print("\n------ ALUGUEIS POR PERÍODO ------")
-        data_inicio = input("Digite o Início do intervalo (dd/mm/aaaa): ")
-        data_final= input("Digite o Fim do Intervalo (dd/mm/aaaa): ")
+        data_inicio = input("Digite o início do intervalo (dd/mm/aaaa): ")
+        data_final= input("Digite o fim do intervalo (dd/mm/aaaa): ")
 
         return {
             "data_inicio": data_inicio,
@@ -39,15 +39,15 @@ class TelaAluguel():
 
     def mostra_aluguel(self, dados_aluguel):
         print("\n------ ALUGUEL ------")
-        print("------ Dados Cliente ------")
+        print("DADOS CLIENTE -----------")
         print("Nome: ", dados_aluguel["nome"])
-        print("Cpf: ", dados_aluguel["cpf"])
-        print("\n------ Dados Automovel------")
+        print("CPF: ", dados_aluguel["cpf"])
+        print("\nDADOS VEÍCULO -----------")
         print("Placa: ", dados_aluguel["placa"])
         print("Data de Início:", dados_aluguel["data_inicio"])
         print("Data De Devolução: ", dados_aluguel["data_final"])
-        print("Valor Total: ")
+        print("Valor Pago: ", dados_aluguel["valor_total"] )
 
     def seleciona_aluguel(self):
-        cpf = input("CPF do cliente que está cadastrado no aluguel: ")
+        cpf = input("\nDigite o CPF do cliente cadastrado no aluguel: ")
         return cpf
