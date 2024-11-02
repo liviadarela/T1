@@ -29,6 +29,10 @@ class ControladorSistema:
     @property
     def controlador_caminhoes(self):
         return self.__controlador_caminhoes
+    
+    @property
+    def controlador_alugueis(self):
+        return self.__controlador_alugueis
 
     def inicia_sistema(self):
         self.abre_tela() 

@@ -1,7 +1,5 @@
-from abc import ABC, abstractmethod
 
-class Automovel(ABC):
-    @abstractmethod
+class Automovel():
     def __init__(self, placa: str, modelo: str, marca: str, ano:int, valor_por_dia: float, status="Disponível"):
         self.__placa = None
         self.__modelo = None
@@ -37,7 +35,6 @@ class Automovel(ABC):
         if isinstance(status, str):
             self.__status = status
         else:
-        
             raise ValueError("Status não condiz com o tipo desejado")
         
     @property

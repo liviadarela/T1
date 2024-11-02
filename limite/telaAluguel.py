@@ -1,5 +1,4 @@
 
-
 class TelaAluguel():
     def tela_opcoes(self):
         print("\n--------- OPÇÕES AlUGUEIS ---------")
@@ -8,6 +7,7 @@ class TelaAluguel():
         print("2 - Devolução do Aluguel")
         print("3 - Registro de Alugueis")
         print("4 - Resgistro de Alugueis por período")
+        print("5 - Alterar Aluguel cadastrado")
         print("0 - Retornar ao Menu Principal")
 
         opcao = int(input("\nEscolha a opcão que deseja utilizar: "))

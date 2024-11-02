@@ -9,7 +9,7 @@ from entidades.caminhao import Caminhao
 from entidades.automovel import Automovel
 
 class ControladorAluguel():
-    def __init__(self, controladorSistema,):
+    def __init__(self, controladorSistema):
         self.__controlador_sistema = controladorSistema 
         self.__tela_aluguel = TelaAluguel()
         self.__controlador_cliente = self.__controlador_sistema.controlador_cliente
@@ -91,6 +91,33 @@ class ControladorAluguel():
                 print("\nAluguel não realizado.")
                 return
             
+    def alterar_aluguel(self):
+        cpf = self.__tela_aluguel.seleciona_aluguel()
+        aluguel_encontrado = None
+
+        for aluguel in self.__alugueis:
+            if aluguel.cliente.cpf == cpf:
+                aluguel_encontrado = aluguel
+                break
+
+        if aluguel_encontrado is not None:
+            novos_dados = self.__tela_aluguel.pega_dados_aluguel()
+            try:
+                data_inicio = datetime.strptime(novos_dados["data_inicio"], "%d/%m/%Y").date()
+                data_final = datetime.strptime(novos_dados["data_final"], "%d/%m/%Y").date()
+                
+                if data_inicio > data_final:
+                    raise ValueError("A data de início do aluguel não pode ser posterior à data final.")
+                
+                aluguel_encontrado.data_inicio = data_inicio
+                aluguel_encontrado.data_final = data_final
+                print("\nAluguel alterado com sucesso.")
+            except ValueError as e:
+                print(f"\nErro: {e}")
+                print("Por favor, tente novamente.\n")
+        else:
+            print("\nATENÇÃO: Não foi encontrado nenhum aluguel para este CPF.")
+            
 
     def categoria_valida(self, cliente: Cliente, automovel: Automovel) -> bool:
         if isinstance(automovel, Caminhao) and cliente.cnh.categoria == "C":
@@ -123,13 +150,21 @@ class ControladorAluguel():
             print("\nNão há aluguéis cadastrados.")
         else:
             for aluguel in self.__alugueis:
+                dias_aluguel = (aluguel.data_final - aluguel.data_inicio).days
+                valor_total = aluguel.automovel.valor_por_dia * dias_aluguel
+
+                # Verifica se é uma moto para adicionar o seguro adicional
+                if isinstance(aluguel.automovel, Moto):
+                    valor_total += aluguel.automovel.seguro_adicional * dias_aluguel
+
+
                 self.__tela_aluguel.mostra_aluguel({
                     "nome": aluguel.cliente.nome,  
                     "cpf": aluguel.cliente.cpf,     
                     "placa": aluguel.automovel.placa,  
                     "data_inicio": aluguel.data_inicio.strftime("%d/%m/%Y"),
                     "data_final": aluguel.data_final.strftime("%d/%m/%Y"),
-                    "valor_total": aluguel.automovel.valor_por_dia * (aluguel.data_final - aluguel.data_inicio).days
+                    "valor_total": valor_total
                 })
             print("\nTodos os aluguéis foram exibidos.")
 
@@ -145,7 +180,14 @@ class ControladorAluguel():
         
         print("\n------ ALUGUEIS POR PERÍODO ------")
         for aluguel in self.__alugueis:
-            if aluguel.data_inicio >= data_inicio_intervalo and aluguel.data_inico <= data_final_intervalo:
+            if aluguel.data_inicio >= data_inicio_intervalo:
+            # Calcula o valor total para cada aluguel no intervalo
+                dias_aluguel = (aluguel.data_final - aluguel.data_inicio).days
+                valor_total = aluguel.automovel.valor_por_dia * dias_aluguel
+
+                if isinstance(aluguel.automovel, Moto):
+                    valor_total += aluguel.automovel.seguro_adicional * dias_aluguel
+
                 alugueis_no_intervalo.append(aluguel)
                 self.__tela_aluguel.mostra_aluguel({
                     "nome": aluguel.cliente.nome,
@@ -153,7 +195,7 @@ class ControladorAluguel():
                     "placa": aluguel.automovel.placa,
                     "data_inicio": aluguel.data_inicio.strftime("%d/%m/%Y"),
                     "data_final": aluguel.data_final.strftime("%d/%m/%Y"),
-                    "valor_total": aluguel.automovel.valor_por_dia * (aluguel.data_final - aluguel.data_inicio).days
+                    "valor_total": valor_total
                 })
 
         if len(alugueis_no_intervalo) == 0:
@@ -170,6 +212,7 @@ class ControladorAluguel():
             2: self.devolucao,
             3: self.alugueis,
             4: self.alugueis_por_data,
+            5: self.alterar_aluguel,
             0: self.retornar
         }
 

@@ -1,8 +1,7 @@
-from abc import ABC, abstractmethod
 
-class TelaAutomovel(ABC):
+
+class TelaAutomovel():
     
-    @abstractmethod
     def pega_infomacao_automovel(self):
         print("\n-------- DADOS VEÍCULO ----------")
         placa = input("Placa: ")
@@ -20,7 +19,6 @@ class TelaAutomovel(ABC):
             "status" : "disponivel"
         }
 
-    @abstractmethod
     def mostra_automovel(self, dados_automovel):
         print("Placa: ", dados_automovel["placa"])
         print("Modelo: ", dados_automovel["modelo"])

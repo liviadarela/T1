@@ -4,10 +4,10 @@ from entidades.cnh import Cnh
 from datetime import datetime
 
 class ControladorCliente():
-    def __init__(self, controladorSistema): 
-        self.__controlador_sistema = controladorSistema 
+    def __init__(self, controladorSistema):  
         self.__clientes = []  
-        self.__tela_cliente = TelaCliente()  
+        self.__tela_cliente = TelaCliente() 
+        self.__controlador_sistema = controladorSistema  
 
     def pega_cliente_por_cpf(self, cpf):
         for cliente in self.__clientes:
@@ -25,6 +25,10 @@ class ControladorCliente():
                     raise ValueError("O nome deve conter apenas letras.")
 
                 cpf = dados_cliente["cpf"]
+                for cliente in self.__clientes:
+                    if cliente.cpf == cpf:
+                        raise ValueError("CPF já cadastrado")
+                
                 if not cpf.isdigit() or len(cpf) != 11:
                     raise ValueError("O CPF deve conter apenas 11 dígitos numéricos.")
 
@@ -42,7 +46,7 @@ class ControladorCliente():
                 print("\nCliente incluído com sucesso!")
                 break
             except ValueError as e:
-                print(f"Erro: {e}")
+                print(f"\nErro: {e}")
                 print("Por favor, insira os dados novamente.\n")
 
     def alterar_cliente(self):
@@ -51,21 +55,45 @@ class ControladorCliente():
         cliente = self.pega_cliente_por_cpf(cpf_cliente)
 
         if cliente is not None:
-            novos_dados_cliente = self.__tela_cliente.pega_dados_cliente()
-            
-            cliente.nome = novos_dados_cliente["nome"]
-            cliente.cpf = novos_dados_cliente["cpf"]
-            cliente.data_nascimento = self.__converter_data(novos_dados_cliente["data_nascimento"])
-            cliente.endereco = novos_dados_cliente["endereco"]
+            while True:
+                try:
+                    novos_dados_cliente = self.__tela_cliente.pega_dados_cliente()
 
-            
-            cnh = Cnh(novos_dados_cliente["numero_cnh"], novos_dados_cliente["categoria_cnh"], self.__converter_data(novos_dados_cliente["validade_cnh"]))
-            cliente.cnh = cnh
-            
-            print("\nCliente alterado com sucesso!")
-            self.lista_clientes()
+                    # Validação do nome
+                    nome = novos_dados_cliente["nome"]
+                    if not nome.replace(" ", "").isalpha():
+                        raise ValueError("O nome deve conter apenas letras.")
+                    cliente.nome = nome
+
+                    # Validação e atualização do CPF
+                    novo_cpf = novos_dados_cliente["cpf"]
+                    if novo_cpf != cliente.cpf:
+                        for outro_cliente in self.__clientes:
+                            if outro_cliente.cpf == novo_cpf:
+                                print("erro")
+                                raise ValueError("CPF já cadastrado.")
+                        
+                    if not novo_cpf.isdigit() or len(novo_cpf) != 11:
+                        raise ValueError("O CPF deve conter exatamente 11 dígitos numéricos.")
+                    cliente.cpf = novo_cpf
+
+                    # Validação da data de nascimento
+                    cliente.data_nascimento = self.__converter_data(novos_dados_cliente["data_nascimento"])
+
+                    # Atualização do endereço
+                    cliente.endereco = novos_dados_cliente["endereco"]
+
+                    # Validação e atualização da CNH
+                    validade_cnh = self.__converter_data(novos_dados_cliente["validade_cnh"])
+                    cliente.cnh = Cnh(novos_dados_cliente["numero_cnh"], novos_dados_cliente["categoria_cnh"], validade_cnh)
+
+                    print("\nCliente alterado com sucesso!")
+                    break
+                except ValueError as e:
+                    print(f"\nErro: {e}")
+                    print("Por favor, insira os dados novamente.\n")
         else:
-            print("\nATENCAO: Cliente não existente")
+            print("\nATENÇÃO: Cliente não existente")
 
     def lista_clientes(self):
         if not self.__clientes:
