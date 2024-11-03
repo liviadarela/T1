@@ -189,7 +189,7 @@ class ControladorAluguel():
         
         print("\n------ ALUGUEIS POR PERÍODO ------")
         for aluguel in self.__alugueis:
-            if aluguel.data_inicio >= data_inicio_intervalo:
+            if aluguel.data_inicio >= data_inicio_intervalo and aluguel.data_inicio <= data_final_intervalo:
             # Calcula o valor total para cada aluguel no intervalo
                 dias_aluguel = (aluguel.data_final - aluguel.data_inicio).days
                 valor_total = aluguel.automovel.valor_por_dia * dias_aluguel
