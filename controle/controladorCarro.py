@@ -2,6 +2,12 @@ from entidades.carro import Carro
 from limite.telaCarro import TelaCarro
 from controle.controladorAutomovel import ControladorAutomovel
 
+
+#classe ControladorCarro realiza operações específicas para o gerenciamento de carros, 
+#incluindo métodos para incluir, excluir e listar veículos da frota de carros, tambem 
+# fornece uma interface de interação com o usuário através de uma tela específica e 
+# permite busca de carros pela placa.
+
 class ControladorCarro(ControladorAutomovel):
     def __init__(self, controlador_sistema):
         super().__init__() 
@@ -11,12 +17,14 @@ class ControladorCarro(ControladorAutomovel):
     def incluir_automovel(self):
         while True:
             try:
+                #pega os dados do carro através da tela 
                 dados_carro = self.__tela_carro.pega_infomacao_automovel()
                 categoria = dados_carro["categoria"]
 
                 if not categoria.isalpha():
                     raise ValueError("\nA categoria deve conter apenas letras.")
                 
+                #cria uma instância de Carro com os dados fornecidos
                 carro = Carro(
                     placa=dados_carro["placa"],
                     modelo=dados_carro["modelo"],
@@ -34,9 +42,11 @@ class ControladorCarro(ControladorAutomovel):
                 print("Por favor, insira os dados novamente.")
 
     def excluir_automovel(self):
+        # metodo para excluir um carro da frota
         placa_automovel = self.__tela_carro.seleciona_automovel()
         automovel_encontrado = False
 
+        # Busca o carro na frota pelo número da placa
         for automovel in self.__frota_carros:
             if automovel.placa == placa_automovel:
                 self.__frota_carros.remove(automovel)
@@ -50,6 +60,7 @@ class ControladorCarro(ControladorAutomovel):
         if not self.__frota_carros:
             print("\nFrota de carros está vazia.")
         else:
+             # percorre a frota e exibe as informações de cada carro
             print("\n------ FROTA DE CARROS ------")
             for carro in self.__frota_carros:
                 self.__tela_carro.mostra_automovel({
@@ -67,6 +78,7 @@ class ControladorCarro(ControladorAutomovel):
         return 
     
     def abre_tela(self):
+        # metodo para abrir a tela de opções para o usuário
         lista_opcoes = {
             1: self.incluir_automovel,
             2: self.excluir_automovel,

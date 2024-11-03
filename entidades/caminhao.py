@@ -1,7 +1,9 @@
 from entidades.automovel import Automovel
 
-class Caminhao(Automovel):
+# As classes Moto e carro se comportam da mesma maneira mudando apenas o atributo diferente 
+class Caminhao(Automovel): # classe Caminhao herda da classe 'Automovel
     def __init__(self, numero_de_eixos: int, placa: str, modelo: str, marca: str, ano:int, valor_por_dia: float, status="Disponível"):
+        # chama o construtor da classe pai (Automovel) com os parâmetros necessários
         super().__init__(placa, modelo, marca, ano, valor_por_dia, status)
         self.__numero_de_eixos = None
         

@@ -15,6 +15,7 @@ class ControladorCliente():
                 return cliente
         return None
 
+    # método para incluir um novo cliente 
     def incluir_cliente(self):
         while True:
             try:
@@ -50,6 +51,7 @@ class ControladorCliente():
                 print("Por favor, insira os dados novamente.\n")
 
     def alterar_cliente(self):
+        #alterando so dados armazenados de um cliente
         self.lista_clientes()
         cpf_cliente = self.__tela_cliente.seleciona_cliente()
         cliente = self.pega_cliente_por_cpf(cpf_cliente)
@@ -59,13 +61,13 @@ class ControladorCliente():
                 try:
                     novos_dados_cliente = self.__tela_cliente.pega_dados_cliente()
 
-                    # Validação do nome
+                    # validação do nome
                     nome = novos_dados_cliente["nome"]
                     if not nome.replace(" ", "").isalpha():
                         raise ValueError("O nome deve conter apenas letras.")
                     cliente.nome = nome
 
-                    # Validação e atualização do CPF
+                    # validação e atualização do CPF
                     novo_cpf = novos_dados_cliente["cpf"]
                     if novo_cpf != cliente.cpf:
                         for outro_cliente in self.__clientes:
@@ -77,13 +79,13 @@ class ControladorCliente():
                         raise ValueError("O CPF deve conter exatamente 11 dígitos numéricos.")
                     cliente.cpf = novo_cpf
 
-                    # Validação da data de nascimento
+                    # validação da data de nascimento
                     cliente.data_nascimento = self.__converter_data(novos_dados_cliente["data_nascimento"])
 
-                    # Atualização do endereço
+                    # atualização do endereço
                     cliente.endereco = novos_dados_cliente["endereco"]
 
-                    # Validação e atualização da CNH
+                    # validação e atualização da CNH
                     validade_cnh = self.__converter_data(novos_dados_cliente["validade_cnh"])
                     cliente.cnh = Cnh(novos_dados_cliente["numero_cnh"], novos_dados_cliente["categoria_cnh"], validade_cnh)
 

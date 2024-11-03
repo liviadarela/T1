@@ -4,10 +4,13 @@ from entidades.automovel import Automovel
 
 class Aluguel():
     def __init__(self, cliente: Cliente, automovel: Automovel, data_inicio: date, data_final: date):
+        # inicializando todos os atributos como None
         self.__cliente = None
         self.__automovel = None
         self.__data_inicio = None
         self.__data_final  = None
+
+        # Validações 
         if isinstance(cliente, Cliente):
             self.__cliente = cliente
         else:
@@ -28,6 +31,7 @@ class Aluguel():
         else:
             raise ValueError("Data de final não condiz com o tipo desejado")
 
+    #Getters e Setters
     @property
     def cliente(self):
         return self.__cliente

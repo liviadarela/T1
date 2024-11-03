@@ -3,6 +3,7 @@ from entidades.cnh import Cnh
 
 class Cliente:
     def __init__(self, nome: str, cpf: str, data_nascimento: date, endereco: str, cnh: Cnh):
+        # inicializando todos os atributos como None
         self.__nome = None
         self.__cpf = None
         self.__data_nascimento = None

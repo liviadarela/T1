@@ -1,6 +1,7 @@
 
 class Automovel():
     def __init__(self, placa: str, modelo: str, marca: str, ano:int, valor_por_dia: float, status="Disponível"):
+        # inicializando todos os atributos como None
         self.__placa = None
         self.__modelo = None
         self.__marca = None

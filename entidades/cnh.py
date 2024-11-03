@@ -2,6 +2,7 @@ from datetime import date
 
 class Cnh():
     def __init__(self, numero, categoria, validade):
+        # inicializando todos os atributos como None
         self.__numero = None
         self.__categoria = None
         self.__validade = None

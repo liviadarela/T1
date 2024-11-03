@@ -10,29 +10,30 @@ from entidades.automovel import Automovel
 
 class ControladorAluguel():
     def __init__(self, controladorSistema):
+        # Inicializa o controlador de aluguel, associando o controlador do sistema e as telas e controladores necessários.
         self.__controlador_sistema = controladorSistema 
         self.__tela_aluguel = TelaAluguel()
         self.__controlador_cliente = self.__controlador_sistema.controlador_cliente
         self.__controlador_carros = self.__controlador_sistema.controlador_carros
         self.__controlador_motos = self.__controlador_sistema.controlador_motos
         self.__controlador_caminhoes = self.__controlador_sistema.controlador_caminhoes
-        self.__alugueis = []
+        self.__alugueis = [] #lista vazia para armazenar os alugueis resgitrados
 
     
     def realizar_aluguel(self):
         while True:
             try:
+                # Recebe os dados para o aluguel a partir da tela e busca o cliente pelo CPF.
                 dados_aluguel = self.__tela_aluguel.pega_dados_aluguel()
                 cpf_cliente = dados_aluguel["cliente"]
-
-                # Busca o cliente pelo CPF usando o controlador de clientes
                 cliente = self.__controlador_cliente.pega_cliente_por_cpf(cpf_cliente)
 
                 if not cliente:
                     raise ValueError("Cliente não encontrado.")
                 
-                automovel = None  # Inicializando automóvel para verificação posterior
+                automovel = None  # inicializando automóvel para verificação posterior
 
+                # tenta encontrar o automovel informado, verificando em cada controlador específico.
                 if self.__controlador_carros.pega_carro_placa(dados_aluguel["automovel"]):
                     automovel = self.__controlador_carros.pega_carro_placa(dados_aluguel["automovel"])
                 elif self.__controlador_motos.pega_moto_placa(dados_aluguel["automovel"]):
@@ -60,12 +61,16 @@ class ControladorAluguel():
                 print(f"\nErro: {e}")
                 print("Por favor, tente novamente.\n")
                 continue
-
+            
+            # cria uma nova instancia de aluguel com os dados coletados.
             novo_aluguel = Aluguel(cliente, automovel, data_inicio, data_final)
 
+            # verifica se o cliente possui a categoria de CNH adequada e se está válida.
             if self.categoria_valida(cliente, automovel):
                 if novo_aluguel.cliente.cnh.validade > date.today():
                     if automovel.status == "Disponível":
+
+                        # verifica se o cliente já possui um aluguel em andamento.
                         for aluguel in self.__alugueis:
                             if aluguel.cliente == novo_aluguel.cliente:
                                 print("\nAtenção: Cliente já está alugando outro veículo.")
@@ -91,6 +96,7 @@ class ControladorAluguel():
                 print("\nAluguel não realizado.")
                 return
             
+    # Altera os valores do aluguel ja resgitrado, a partir do cpf cadastrado  
     def alterar_aluguel(self):
         cpf = self.__tela_aluguel.seleciona_aluguel()
         aluguel_encontrado = None
@@ -118,7 +124,7 @@ class ControladorAluguel():
         else:
             print("\nATENÇÃO: Não foi encontrado nenhum aluguel para este CPF.")
             
-
+    # Verifica a categoria da CNH do cliente para garantir que seja compatível com o tipo de automóvel.
     def categoria_valida(self, cliente: Cliente, automovel: Automovel) -> bool:
         if isinstance(automovel, Caminhao) and cliente.cnh.categoria == "C":
             return True
@@ -129,6 +135,7 @@ class ControladorAluguel():
         else:
             return False
 
+    #Faz a devolução do veículo, a partir do cpf cadastrado
     def devolucao(self):
         cpf = self.__tela_aluguel.seleciona_aluguel()
         aluguel_encontrado = None
@@ -145,6 +152,7 @@ class ControladorAluguel():
         else:
             print("\nATENÇÃO: Não foi encontrado nenhum aluguel para este CPF.")
 
+    #Lista os alugueis cadastrados
     def alugueis(self):
         if not self.__alugueis:
             print("\nNão há aluguéis cadastrados.")
@@ -168,6 +176,7 @@ class ControladorAluguel():
                 })
             print("\nTodos os aluguéis foram exibidos.")
 
+    #Lista os registros de alugeuis que foram resgitrados em determinado intervalo de tempo
     def alugueis_por_data(self):
         alugueis_no_intervalo = []
         dados_intervalo = self.__tela_aluguel.intervalo()
@@ -201,11 +210,13 @@ class ControladorAluguel():
         if len(alugueis_no_intervalo) == 0:
             print("\nNao há alugueis nesse intervalo.")
             return 
-    
+        
+    #Retornar ao menu principal
     def retornar(self):
         print("\nRetornando ao menu principal...")
         return
 
+    #mostra o menu de opções para o usuário e chama a função correspondente com base na escolha 
     def abre_tela(self):
         lista_opcoes = {
             1: self.realizar_aluguel,

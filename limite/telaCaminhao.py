@@ -4,7 +4,7 @@ class TelaCaminhao(TelaAutomovel):
 
     def tela_opcoes(self):
         print("\n--------- OPÇÕES CAMINHÕES ---------")
-        print("Escolha a opção:")
+        print("\nEscolha a opção:")
         print("1 - Cadastrar caminhão novo")
         print("2 - Excluir caminhão já cadastrado")
         print("3 - Verificar frota de caminhões")

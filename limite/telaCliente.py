@@ -12,7 +12,7 @@ class TelaCliente():
         opcao = int(input("\nEscolha a opcão que deseja utilizar: "))
         return opcao
 
-    #fazer a validação aqui
+    
     def pega_dados_cliente(self):
         print("\n-------- DADOS CLIENTE ----------")
         nome = input("Nome: ")

@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from limite.telaAutomovel import TelaAutomovel
-from entidades.automovel import Automovel
+
+# Classe abstrata ControladorAutomovel define as operações de controle de automóveis
 class ControladorAutomovel(ABC):
     def __init__(self):
         self.__tela_automovel = TelaAutomovel

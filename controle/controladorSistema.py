@@ -7,6 +7,7 @@ from controle.controladorAluguel import ControladorAluguel
 
 class ControladorSistema:
     def __init__(self):
+        # inicializa a tela do sistema e os controladores para diferentes entidades
         self.__tela_sistema = TelaSistema()
         self.__controlador_cliente = ControladorCliente(self)
         self.__controlador_carros = ControladorCarro(self)
@@ -35,9 +36,12 @@ class ControladorSistema:
         return self.__controlador_alugueis
 
     def inicia_sistema(self):
+        # inicia o sistema, e chama a tela principal
         self.abre_tela() 
 
     def abre_tela(self):
+
+        # metodo para abrir a tela do sistema e gerenciar as opções
         while True:
             opcao = self.__tela_sistema.tela_opcoes()
             if opcao == 1:
