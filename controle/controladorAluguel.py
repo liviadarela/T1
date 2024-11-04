@@ -52,6 +52,8 @@ class ControladorAluguel():
 
                 # Calcula o número de dias entre as datas
                 dias_aluguel = (data_final - data_inicio).days
+                if dias_aluguel == 0:
+                    dias_aluguel = 1
                 valor_total = automovel.valor_por_dia * dias_aluguel
 
                 if isinstance(automovel, Moto):
@@ -97,33 +99,53 @@ class ControladorAluguel():
                 return
             
     # Altera os valores do aluguel ja resgitrado, a partir do cpf cadastrado  
-    def alterar_aluguel(self):
-        cpf = self.__tela_aluguel.seleciona_aluguel()
+    def alterar_datas_aluguel(self):
+        cpf_original = self.__tela_aluguel.seleciona_aluguel()
         aluguel_encontrado = None
 
+        # Procura o aluguel correspondente ao CPF informado.
         for aluguel in self.__alugueis:
-            if aluguel.cliente.cpf == cpf:
+            if aluguel.cliente.cpf == cpf_original:
                 aluguel_encontrado = aluguel
                 break
 
+        # Caso o aluguel seja encontrado, permite a alteração.
         if aluguel_encontrado is not None:
             novos_dados = self.__tela_aluguel.pega_dados_aluguel()
+
             try:
+                # Verifica se o CPF e o automóvel foram alterados
+                cpf_cliente_novo = novos_dados["cliente"]
+                automovel_novo = novos_dados["automovel"]
+
+                if cpf_cliente_novo != cpf_original:
+                    raise ValueError("Erro: O CPF não pode ser alterado. Para fazer isso, faça a devolução e realize um novo aluguel. ")
+
+                # Se o automóvel for diferente, mostra um aviso de erro
+                if automovel_novo != aluguel_encontrado.automovel.placa:
+                    raise ValueError("Erro: O automóvel não pode ser alterado. Para fazer isso, faça a devolução e realize um novo aluguel")
+
+                # Converte e valida as novas datas.
                 data_inicio = datetime.strptime(novos_dados["data_inicio"], "%d/%m/%Y").date()
                 data_final = datetime.strptime(novos_dados["data_final"], "%d/%m/%Y").date()
-                
+
                 if data_inicio > data_final:
                     raise ValueError("A data de início do aluguel não pode ser posterior à data final.")
-                
+
+                # Atualiza as datas do aluguel
                 aluguel_encontrado.data_inicio = data_inicio
                 aluguel_encontrado.data_final = data_final
-                print("\nAluguel alterado com sucesso.")
+
+                print(f"\nDatas do aluguel alteradas com sucesso.")
+            
             except ValueError as e:
-                print(f"\nErro: {e}")
+                print(f"\n{e}")
                 print("Por favor, tente novamente.\n")
         else:
             print("\nATENÇÃO: Não foi encontrado nenhum aluguel para este CPF.")
-            
+
+
+                
     # Verifica a categoria da CNH do cliente para garantir que seja compatível com o tipo de automóvel.
     def categoria_valida(self, cliente: Cliente, automovel: Automovel) -> bool:
         if isinstance(automovel, Caminhao) and cliente.cnh.categoria == "C":
@@ -223,7 +245,7 @@ class ControladorAluguel():
             2: self.devolucao,
             3: self.alugueis,
             4: self.alugueis_por_data,
-            5: self.alterar_aluguel,
+            5: self.alterar_datas_aluguel,
             0: self.retornar
         }
 
