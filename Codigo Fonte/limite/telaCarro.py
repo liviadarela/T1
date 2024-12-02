@@ -17,7 +17,7 @@ class TelaCarro(TelaAutomovel):
             event, _ = window.read()
             if event == sg.WINDOW_CLOSED or event == "Voltar":
                 window.close()
-                return None  # Se o usuário voltar ou fechar a janela
+                return 0  # Se o usuário voltar ou fechar a janela
 
             if event == "Cadastrar carro novo":
                 window.close()

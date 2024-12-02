@@ -1,3 +1,4 @@
+import PySimpleGUI as sg
 
 class Automovel():
     def __init__(self, placa: str, modelo: str, marca: str, ano:int, valor_por_dia: float, status="Disponível"):

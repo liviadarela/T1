@@ -14,7 +14,7 @@ class TelaMoto(TelaAutomovel):
         return opcao
     
     def pega_infomacao_automovel(self):
-        dados_comuns = super().pega_infomacao_automovel()
+        dados_comuns = super().pega_informacao_automovel()
         seguro_adicional = input("Seguro Adicional: ")
         dados_comuns["seguro_adicional"] = seguro_adicional
         return dados_comuns

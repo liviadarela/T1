@@ -1,4 +1,5 @@
 from entidades.automovel import Automovel
+import PySimpleGUI as sg
 
 class Carro(Automovel):
     def __init__(self, categoria: str, placa: str, modelo: str, marca: str, ano:int, valor_por_dia: float, status="Disponível"):
@@ -8,7 +9,7 @@ class Carro(Automovel):
         if isinstance(categoria, str):
             self.__categoria = categoria
         else:
-            raise ValueError("Categoria não condiz com o tipo desejado")
+            sg.popup_error("Categoria não condiz com o tipo desejado")
 
     @property
     def categoria(self):
@@ -19,6 +20,6 @@ class Carro(Automovel):
         if isinstance(categoria, str):
             self.__categoria = categoria 
         else:
-            raise ValueError("Categoria não condiz com o tipo desejado")
+            sg.popup_error("Categoria não condiz com o tipo desejado")
 
     
