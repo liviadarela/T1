@@ -1,53 +1,126 @@
+import PySimpleGUI as sg
 
-class TelaAluguel():
+class TelaAluguel:
     def tela_opcoes(self):
-        print("\n--------- OPÇÕES AlUGUEIS ---------")
-        print("Escolha a opção")
-        print("1 - Realizar Aluguel")
-        print("2 - Devolução do Aluguel")
-        print("3 - Registro de Alugueis")
-        print("4 - Resgistro de Alugueis por período")
-        print("5 - Alterar Datas de um Aluguel cadastrado")
-        print("0 - Retornar ao Menu Principal")
+        # Layout das opções
+        layout = [
+            [sg.Text("-------- OPÇÕES DE ALUGUEL --------")],
+            [sg.Button("Realizar Aluguel", key=1), sg.Button("Devolução", key=2)],
+            [sg.Button("Listar Aluguéis", key=3), sg.Button("Listar Aluguéis por Data", key=4)],
+            [sg.Button("Alterar Data do Aluguel", key=5), sg.Button("Sair", key=0)]
+        ]
 
-        opcao = int(input("\nEscolha a opcão que deseja utilizar: "))
-        return opcao
-     
+        janela = sg.Window("Tela de Aluguel", layout)
+
+        while True:
+            evento, _ = janela.read()
+            if evento == sg.WINDOW_CLOSED or evento == 0:
+                janela.close()
+                break
+            return evento
+
     def pega_dados_aluguel(self):
-        print("\n------ DADOS PARA ALUGUEL ------")
-        cliente = input("CPF do cliente:")
-        automovel = input("Placa do automovel: ")
-        data_inicio = input("Digite a data de início (dd/mm/aaaa): ")
-        data_final= input("Digite a data de devolução (dd/mm/aaaa): ")
+        # Layout para pegar os dados do aluguel
+        layout = [
+            [sg.Text("Informe o CPF do cliente:")],
+            [sg.InputText("", key="cliente")],
+            [sg.Text("Informe a placa do automóvel:")],
+            [sg.InputText("", key="automovel")],
+            [sg.Text("Informe a data de início (dd/mm/aaaa):")],
+            [sg.InputText("", key="data_inicio")],
+            [sg.Text("Informe a data final (dd/mm/aaaa):")],
+            [sg.InputText("", key="data_final")],
+            [sg.Button("Confirmar"), sg.Button("Cancelar")]
+        ]
 
-        return {
-            "cliente": cliente,
-            "automovel": automovel,
-            "data_inicio": data_inicio,
-            "data_final": data_final
-        }
-    
+        janela = sg.Window("Dados do Aluguel", layout)
+
+        while True:
+            evento, valores = janela.read()
+            if evento == sg.WINDOW_CLOSED or evento == "Cancelar":
+                janela.close()
+                return {}
+            if evento == "Confirmar":
+                janela.close()
+                return valores
+
+    def mostra_mensagem(self, titulo, mensagem):
+        layout = [
+            [sg.Text(titulo)],
+            [sg.Text(mensagem)],
+            [sg.Button("OK")]
+        ]
+        janela = sg.Window("Mensagem", layout)
+
+        while True:
+            evento, _ = janela.read()
+            if evento == sg.WINDOW_CLOSED or evento == "OK":
+                janela.close()
+                break
+
+    def listar_alugueis(self, alugueis):
+        layout = [
+            [sg.Text("------ Aluguéis Cadastrados ------")],
+            [sg.Text("Nome Cliente | CPF | Placa | Data Início | Data Final | Valor Total")],
+        ]
+        
+        for aluguel in alugueis:
+            valor_total = aluguel.automovel.valor_por_dia * (aluguel.data_final - aluguel.data_inicio).days
+            if isinstance(aluguel.automovel, Moto):
+                valor_total += aluguel.automovel.seguro_adicional * (aluguel.data_final - aluguel.data_inicio).days
+
+            layout.append([sg.Text(f"{aluguel.cliente.nome} | {aluguel.cliente.cpf} | {aluguel.automovel.placa} | {aluguel.data_inicio.strftime('%d/%m/%Y')} | {aluguel.data_final.strftime('%d/%m/%Y')} | R${valor_total:.2f}")])
+
+        layout.append([sg.Button("OK")])
+        janela = sg.Window("Lista de Aluguéis", layout)
+
+        while True:
+            evento, _ = janela.read()
+            if evento == sg.WINDOW_CLOSED or evento == "OK":
+                janela.close()
+                break
+
     def intervalo(self):
-        print("\n------ ALUGUEIS POR PERÍODO ------")
-        data_inicio = input("Digite o início do intervalo (dd/mm/aaaa): ")
-        data_final= input("Digite o fim do intervalo (dd/mm/aaaa): ")
+        # Layout para pegar o intervalo de datas
+        layout = [
+            [sg.Text("Informe a data de início do intervalo (dd/mm/aaaa):")],
+            [sg.InputText("", key="data_inicio")],
+            [sg.Text("Informe a data final do intervalo (dd/mm/aaaa):")],
+            [sg.InputText("", key="data_final")],
+            [sg.Button("Confirmar"), sg.Button("Cancelar")]
+        ]
 
-        return {
-            "data_inicio": data_inicio,
-            "data_final": data_final
-        }
+        janela = sg.Window("Intervalo de Datas", layout)
 
-    def mostra_aluguel(self, dados_aluguel):
-        print("\n------ ALUGUEL ------")
-        print("DADOS CLIENTE -----------")
-        print("Nome: ", dados_aluguel["nome"])
-        print("CPF: ", dados_aluguel["cpf"])
-        print("\nDADOS VEÍCULO -----------")
-        print("Placa: ", dados_aluguel["placa"])
-        print("Data de Início:", dados_aluguel["data_inicio"])
-        print("Data De Devolução: ", dados_aluguel["data_final"])
-        print("Valor Pago: ", dados_aluguel["valor_total"] )
+        while True:
+            evento, valores = janela.read()
+            if evento == sg.WINDOW_CLOSED or evento == "Cancelar":
+                janela.close()
+                return {}
+            if evento == "Confirmar":
+                janela.close()
+                return valores
+
+
 
     def seleciona_aluguel(self):
-        cpf = input("\nDigite o CPF do cliente cadastrado no aluguel: ")
-        return cpf
+        # Layout da janela para coletar o CPF
+        layout = [
+            [sg.Text('Digite o CPF do cliente:')],
+            [sg.InputText('', key='cpf')],
+            [sg.Button('Confirmar'), sg.Button('Cancelar')]
+        ]
+        
+        # Criar a janela
+        window = sg.Window('Coletar CPF', layout)
+        
+        # Loop para interação com o usuário
+        while True:
+            event, values = window.read()
+            if event == sg.WIN_CLOSED or event == 'Cancelar':  # Fechar a janela ou cancelar
+                window.close()
+                return None
+            if event == 'Confirmar':  # Quando o CPF for inserido e o botão 'Confirmar' for pressionado
+                cpf = values['cpf']
+                window.close()
+                return cpf

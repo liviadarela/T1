@@ -1,50 +1,51 @@
 from datetime import date
-from entidades.cnh import Cnh 
+from entidades.cnh import Cnh
+from exception.dadosInvalidosException import DadosInvalidoException
 
 class Cliente:
     def __init__(self, nome: str, cpf: str, data_nascimento: date, endereco: str, cnh: Cnh):
-        # inicializando todos os atributos como None
+        # Inicializando todos os atributos como None
         self.__nome = None
         self.__cpf = None
         self.__data_nascimento = None
         self.__endereco = None
         self.__cnh = None
-        
+
         if isinstance(nome, str) and nome.replace(" ", "").isalpha():
             self.__nome = nome
         else:
-            raise ValueError("O nome deve conter apenas letras.")
+            raise DadosInvalidoException("O nome deve conter apenas letras.")
 
-        if isinstance(cpf, str) and cpf.isdigit():  
+        if isinstance(cpf, str) and cpf.isdigit():
             self.__cpf = cpf
         else:
-            raise ValueError("CPF deve conter apenas números")
+            raise DadosInvalidoException("CPF deve conter apenas números.")
 
         if isinstance(data_nascimento, date):
             self.__data_nascimento = data_nascimento
         else:
-            raise ValueError("Data de nascimento deve ser uma data válida")
+            raise DadosInvalidoException("Data de nascimento deve ser uma data válida.")
 
         if isinstance(endereco, str):
             self.__endereco = endereco
         else:
-            raise ValueError("Endereço deve ser uma string")
+            raise DadosInvalidoException("Endereço deve ser uma string.")
 
         if isinstance(cnh, Cnh):
             self.__cnh = cnh
         else:
-            raise ValueError("CNH deve ser uma instância da classe Cnh")
-    
+            raise DadosInvalidoException("CNH deve ser uma instância da classe Cnh.")
+
     @property
     def nome(self) -> str:
         return self.__nome
 
     @nome.setter
     def nome(self, nome: str) -> None:
-        if isinstance(nome, str):
+        if isinstance(nome, str) and nome.replace(" ", "").isalpha():
             self.__nome = nome
         else:
-            raise ValueError("Nome deve ser uma string")
+            raise DadosInvalidoException("O nome deve conter apenas letras.")
 
     @property
     def cpf(self) -> str:
@@ -55,7 +56,7 @@ class Cliente:
         if isinstance(cpf, str) and cpf.isdigit():
             self.__cpf = cpf
         else:
-            raise ValueError("CPF deve conter apenas números.")
+            raise DadosInvalidoException("CPF deve conter apenas números.")
 
     @property
     def data_nascimento(self) -> date:
@@ -66,7 +67,7 @@ class Cliente:
         if isinstance(data_nascimento, date):
             self.__data_nascimento = data_nascimento
         else:
-            raise ValueError("Data de nascimento deve ser uma data válida")
+            raise DadosInvalidoException("Data de nascimento deve ser uma data válida.")
 
     @property
     def endereco(self) -> str:
@@ -77,7 +78,7 @@ class Cliente:
         if isinstance(endereco, str):
             self.__endereco = endereco
         else:
-            raise ValueError("Endereço deve ser uma string")
+            raise DadosInvalidoException("Endereço deve ser uma string.")
 
     @property
     def cnh(self) -> Cnh:
@@ -88,5 +89,4 @@ class Cliente:
         if isinstance(cnh, Cnh):
             self.__cnh = cnh
         else:
-            raise ValueError("CNH deve ser uma instância da classe Cnh")
-
+            raise DadosInvalidoException("CNH deve ser uma instância da classe Cnh.")

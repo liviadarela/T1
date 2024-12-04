@@ -1,4 +1,6 @@
 from entidades.automovel import Automovel
+from exception.dadosInvalidosException import DadosInvalidoException
+
 
 class Moto(Automovel):
     def __init__(self, seguro_adicional: float, placa: str, modelo: str, marca: str, ano:int, valor_por_dia: float, status="Disponível"):
@@ -7,7 +9,7 @@ class Moto(Automovel):
         if isinstance(seguro_adicional, float):
             self.__seguro_adicional = seguro_adicional
         else:
-            raise ValueError("\nSeguro adicional não condiz com o tipo desejado")
+            raise DadosInvalidoException("O seguro adicional deve ser um valor positivo")
     
     @property
     def seguro_adicional(self):
@@ -18,6 +20,6 @@ class Moto(Automovel):
         if isinstance(seguro_adicional, float):
             self.__seguro_adicional = seguro_adicional 
         else:
-            raise ValueError("\nSeguro adicional não condiz com o tipo desejado")
+            raise DadosInvalidoException("O seguro adicional deve ser um valor positivo")
     
     

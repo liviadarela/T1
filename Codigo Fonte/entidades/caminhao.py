@@ -1,4 +1,6 @@
 from entidades.automovel import Automovel
+from exception.dadosInvalidosException import DadosInvalidoException
+
 
 # As classes Moto e carro se comportam da mesma maneira mudando apenas o atributo diferente 
 class Caminhao(Automovel): # classe Caminhao herda da classe 'Automovel
@@ -10,7 +12,8 @@ class Caminhao(Automovel): # classe Caminhao herda da classe 'Automovel
         if isinstance(numero_de_eixos, int):
             self.__numero_de_eixos = numero_de_eixos
         else: 
-            raise ValueError("Numero de eixos não condiz com o tipo desejado")
+            raise DadosInvalidoException("Numero de eixos deve ser um número interio.")
+
 
     @property
     def numero_de_eixos(self):
@@ -21,5 +24,5 @@ class Caminhao(Automovel): # classe Caminhao herda da classe 'Automovel
         if isinstance(numero_de_eixos, int):
             self.__numero_de_eixos = numero_de_eixos
         else: 
-            raise ValueError("Numero de eixos não condiz com o tipo desejado")
+            raise DadosInvalidoException("Numero de eixos deve ser um número interio.")
     

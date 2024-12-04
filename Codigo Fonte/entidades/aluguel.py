@@ -1,6 +1,8 @@
 from datetime import date
 from entidades.cliente import Cliente
 from entidades.automovel import Automovel
+from exception.dadosInvalidosException import DadosInvalidoException
+
 
 class Aluguel():
     def __init__(self, cliente: Cliente, automovel: Automovel, data_inicio: date, data_final: date):
@@ -14,24 +16,24 @@ class Aluguel():
         if isinstance(cliente, Cliente):
             self.__cliente = cliente
         else:
-            raise ValueError("Cliente não condiz com o tipo desejado")
+            raise DadosInvalidoException("Cliente não condiz com o tipo desejado")
         
         if isinstance(automovel, Automovel):
             self.__automovel = automovel
         else:
-            raise ValueError("Automóvel não condiz com o tipo desejado")
+            raise DadosInvalidoException("Automóvel não condiz com o tipo desejado")
         
         if isinstance(data_inicio, date):
             self.__data_inicio = data_inicio
         else:
-            raise ValueError("Data de Início não condiz com o tipo desejado")
+            raise DadosInvalidoException("Data de Início não condiz com o tipo desejado")
         
         if isinstance(data_final, date):
             self.__data_final = data_final
         else:
-            raise ValueError("Data de final não condiz com o tipo desejado")
+            raise DadosInvalidoException("Data de final não condiz com o tipo desejado")
 
-    #Getters e Setters
+    # Getters e Setters
     @property
     def cliente(self):
         return self.__cliente
@@ -41,7 +43,7 @@ class Aluguel():
         if isinstance(cliente, Cliente):
             self.__cliente = cliente
         else:
-            raise ValueError("Cliente não condiz com o tipo desejado")
+            raise DadosInvalidoException("Cliente não condiz com o tipo desejado")
 
     @property
     def automovel(self):
@@ -52,7 +54,7 @@ class Aluguel():
         if isinstance(automovel, Automovel):
             self.__automovel = automovel
         else:
-            raise ValueError("Automóvel não condiz com o tipo desejado")
+            raise DadosInvalidoException("Automóvel não condiz com o tipo desejado")
 
     @property
     def data_inicio(self):
@@ -63,7 +65,7 @@ class Aluguel():
         if isinstance(data_inicio, date):
             self.__data_inicio  = data_inicio
         else:
-            raise ValueError("Data de início não condiz com o tipo desejado")
+            raise DadosInvalidoException("Data de início não condiz com o tipo desejado")
     
     @property
     def data_final(self):
@@ -74,10 +76,4 @@ class Aluguel():
         if isinstance(data_final, date):
             self.__data_final  = data_final
         else:
-            raise ValueError("Data de final não condiz com o tipo desejado")
-
-
-
-
-
-            
+            raise DadosInvalidoException("Data de final não condiz com o tipo desejado")

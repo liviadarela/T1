@@ -49,7 +49,7 @@ class TelaCarro(TelaAutomovel):
 
             if event == sg.WINDOW_CLOSED or event == "Cancelar":
                 window.close()
-                return None  # Caso o usuário cancele ou feche a janela
+                return self.tela_opcoes()  # Caso o usuário cancele ou feche a janela
 
             if event == "Confirmar":
                 categoria = values['categoria']
@@ -78,3 +78,30 @@ class TelaCarro(TelaAutomovel):
             if event == sg.WINDOW_CLOSED or event == "Fechar":
                 break
         window.close()
+    
+    def mostra_mensagem(self, titulo: str, mensagem: str):
+        """Exibe uma mensagem ao usuário."""
+        sg.popup(f"--- {titulo.upper()} ---\n\n{mensagem}\n")
+
+    def listarcarros(self, frota_carros):
+        carros_exibicao = [
+            [sg.Text(f"CARRO--------------\nPlaca: {carro.placa}\nModelo: {carro.modelo}\nMarca: {carro.marca}\nAno: {carro.ano}, "
+                    f"\nValor por dia: R$ {carro.valor_por_dia:.2f}\nCategoria: {carro.categoria}\nStatus: {carro.status}\n\n")]
+            for carro in frota_carros
+        ]
+
+        # Define o layout com uma coluna rolável
+        layout = [
+            [sg.Text("------ FROTA DE CARROS ------", font=("Helvetica", 16))],
+            [sg.Column(carros_exibicao, size=(600, 300), scrollable=True, vertical_scroll_only=True)],
+            [sg.Button("Fechar")]
+        ]
+
+        window = sg.Window("Frota de Carros", layout)
+
+        while True:
+            event, _ = window.read()
+            if event in (sg.WINDOW_CLOSED, "Fechar"):
+                break
+
+        window.close() 

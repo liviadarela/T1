@@ -12,7 +12,7 @@ class ControladorSistema:
         self.__controlador_cliente = ControladorCliente(self)
         self.__controlador_carros = ControladorCarro(self)
         self.__controlador_motos = ControladorMoto(self)
-        self.__controlador_caminhoes = ControladorCaminhao()
+        self.__controlador_caminhoes = ControladorCaminhao(self)
         self.__controlador_alugueis = ControladorAluguel(self)
 
     @property
@@ -54,15 +54,11 @@ class ControladorSistema:
                     self.__controlador_caminhoes.abre_tela()
                 elif opcao == 0:
                     continue
-                else:
-                    print("\nOpção inválida. Tente novamente!")
-                continue 
             elif opcao == 2:
                 self.__controlador_cliente.abre_tela()
             elif opcao == 3:
                 self.__controlador_alugueis.abre_tela()
             elif opcao == 0:
-                print("\nSistema encerrado")
+                self.__tela_sistema.mostra_mensagem("\nSistema encerrado")
                 break
-            else:
-                print("\nOpção inválida. Tente novamente")
+            

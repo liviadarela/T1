@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+from exception.dadosInvalidosException import DadosInvalidoException
 from entidades.carro import Carro
 from limite.telaCarro import TelaCarro
 from controle.controladorAutomovel import ControladorAutomovel
@@ -14,35 +15,56 @@ class ControladorCarro(ControladorAutomovel):
         super().__init__() 
         self.__frota_carros = []
         self.__tela_carro = TelaCarro()
- 
+
     def incluir_automovel(self):
-        while True:
-            try:
+        try:
+            while True:
                 #pega os dados do carro através da tela 
                 dados_carro = self.__tela_carro.pega_informacao_automovel()
-                categoria = dados_carro["categoria"]
+                if dados_carro == None:
+                    break
 
-                if not categoria.isalpha():
-                    sg.popup_error("\nA categoria deve conter apenas letras.")
-                    return
+                for campo, valor in dados_carro.items():
+                    if not valor:  # Verifica se está vazio
+                        raise DadosInvalidoException(f"O campo '{campo}' não pode estar vazio.")
+
+                categoria = dados_carro["categoria"]
                 
-                #cria uma instância de Carro com os dados fornecidos
+                if not categoria.isalpha():
+                    raise DadosInvalidoException("A categoria deve conter apenas letras.")
+
+                    # Verifica se a placa já existe na frota
+                placa = dados_carro["placa"]
+                if self.pega_carro_placa(placa):
+                    self.__tela_carro.mostra_mensagem("Erro", "Essa placa já está cadastrada no sistema.")
+                    break
+
+                    # Verifica se o ano é válido (exemplo: entre 1900 e 2025)
+                ano = int(dados_carro["ano"])
+                if ano < 1800 or ano > 2026:
+                    raise DadosInvalidoException("Ano inválido.")
+
+                    # Verifica se o valor por dia é um número positivo
+                valor_por_dia = float(dados_carro["valor_por_dia"])
+                if valor_por_dia <= 0:
+                    raise DadosInvalidoException("O valor por dia deve ser positivo.")
+
+                    # Cria a instância do Carro com os dados fornecidos
                 carro = Carro(
-                    placa=dados_carro["placa"],
+                    placa=placa,
                     modelo=dados_carro["modelo"],
                     marca=dados_carro["marca"],
                     ano=dados_carro["ano"],
-                    valor_por_dia=float(dados_carro["valor_por_dia"]),
-                    categoria=categoria
+                    valor_por_dia=valor_por_dia,
+                    categoria=categoria                
                 )
 
+                # Adiciona o carro à frota
                 self.__frota_carros.append(carro)
-                sg.popup("Carro incluído com sucesso!.")
-
+                self.__tela_carro.mostra_mensagem("Sucesso", "Carro incluído!")
                 break
-            except ValueError as e:
-                sg.popup(f"Erro: {e}")
-                sg.popup("Por favor, insira os dados novamente.")
+        except DadosInvalidoException as e:
+            self.__tela_carro.mostra_mensagem("Erro", e)
 
     def excluir_automovel(self):
         # metodo para excluir um carro da frota
@@ -53,41 +75,18 @@ class ControladorCarro(ControladorAutomovel):
         for automovel in self.__frota_carros:
             if automovel.placa == placa_automovel:
                 self.__frota_carros.remove(automovel)
-                sg.popup("\nCarro excluído com sucesso!")
+                self.__tela_carro.mostra_mensagem("Sucesso", "Carro excluído!")
                 automovel_encontrado = True
                 break
 
         if not automovel_encontrado:
-            sg.popup("\nATENÇÃO: Carro não encontrado")
+            self.__tela_carro.mostra_mensagem("Aviso", "Carro não encontrado")
 
     def listar(self):
         if not self.__frota_carros:
-            sg.popup("Frota de carros está vazia.")
-            return
+            self.__tela_carro.mostra_mensagem("Aviso", "Frota de carros está vazia")
+        self.__tela_carro.listarcarros(self.__frota_carros)
 
-        # Cria uma lista de elementos para cada carro
-        carros_exibicao = [
-            [sg.Text(f"CARRO--------------\nPlaca: {carro.placa}\nModelo: {carro.modelo}\nMarca: {carro.marca}\nAno: {carro.ano}, "
-                    f"\nValor por dia: R$ {carro.valor_por_dia:.2f}\nCategoria: {carro.categoria}\nStatus: {carro.status}\n\n")]
-            for carro in self.__frota_carros
-        ]
-
-        # Define o layout com uma coluna rolável
-        layout = [
-            [sg.Text("------ FROTA DE CARROS ------", font=("Helvetica", 16))],
-            [sg.Column(carros_exibicao, size=(600, 300), scrollable=True, vertical_scroll_only=True)],
-            [sg.Button("Fechar")]
-        ]
-
-        window = sg.Window("Frota de Carros", layout)
-
-        while True:
-            event, _ = window.read()
-            if event in (sg.WINDOW_CLOSED, "Fechar"):
-                break
-
-        window.close()
-        
     def retornar(self):
         return 
     
@@ -107,9 +106,6 @@ class ControladorCarro(ControladorAutomovel):
                 funcao_escolhida()
                 if opcao == 0: 
                     break
-
-            else:
-                sg.popup("\nOpção inválida. Tente novamente!")
 
     def pega_carro_placa(self, placa:str):
         for carro in self.__frota_carros:
