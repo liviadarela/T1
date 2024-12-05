@@ -27,6 +27,8 @@ class ControladorAluguel():
             try:
                 # Recebe os dados para o aluguel a partir da tela e busca o cliente pelo CPF.
                 dados_aluguel = self.__tela_aluguel.pega_dados_aluguel()
+                if not dados_aluguel:
+                    return
                 cpf_cliente = dados_aluguel["cliente"]
                 cliente = self.__controlador_cliente.pega_cliente_por_cpf(cpf_cliente)
 
@@ -87,21 +89,19 @@ class ControladorAluguel():
                             
                         automovel.status = "Indisponível"
                         self.__alugueis.append(novo_aluguel)
-                        self.__tela_aluguel.mostra_mensagem(f"\nPagamento" ,"O valor final totalizou: R${valor_total:.2f}")
+                        self.__tela_aluguel.mostra_mensagem(f"\nPagamento" ,f"O valor final totalizou: R${automovel.valor_total:.2f}")
                         self.__tela_aluguel.mostra_mensagem("\nPagamento" ,"Realizando pagamento...")       
-                        self.__tela_aluguel.mostra_mensagem("\nPagamento" ,"\nAluguel realizado com sucesso!")
+                        self.__tela_aluguel.mostra_mensagem("\nPagamento" ,"Aluguel realizado com sucesso!")
                         return novo_aluguel
                     else:
                         self.__tela_aluguel.mostra_mensagem("\nErro", "Aluguel não realizado. Veículo indisponível.")
                         raise VeiculoIndisponivelException(automovel.placa)
                         
                 else:
-                    self.__tela_aluguel.mostra_mensagem("\nAtenção", "CNH do cliente está fora da validade.")
-                    self.__tela_aluguel.mostra_mensagem("\nAluguel não realizado.")
+                    self.__tela_aluguel.mostra_mensagem("\nAtenção", "CNH do cliente está fora da validade.\nAluguel não realizado")
                     return
             else:
-                self.__tela_aluguel.mostra_mensagem("\nAtenção:", "Categoria da CNH não é compatível com tipo de veículo.")
-                self.__tela_aluguel.mostra_mensagem("\nAtenção:","Aluguel não realizado.")
+                self.__tela_aluguel.mostra_mensagem("\nAtenção:", "Categoria da CNH não é compatível com tipo de veículo.\nAluguel não realizado.")
                 return
 
     # Altera os valores do aluguel já registrado, a partir do CPF cadastrado  
@@ -181,7 +181,7 @@ class ControladorAluguel():
     #Lista os alugueis cadastrados
     def alugueis(self):
         if not self.__alugueis:
-            self.__tela_aluguel.mostra_mensagem("\nNão há aluguéis cadastrados.")
+            self.__tela_aluguel.mostra_mensagem("Atenção!", "Não há aluguéis cadastrados.")
             return
         self.__tela_aluguel.listar_alugueis(self.__alugueis)
 
@@ -193,7 +193,7 @@ class ControladorAluguel():
         data_final_intervalo = datetime.strptime(dados_intervalo["data_final"], "%d/%m/%Y").date()
         
         if data_inicio_intervalo > data_final_intervalo:
-            self.__tela_aluguel.mostra_mensagem("\nErro: A data de início do intervalo não pode ser posterior à data final.")
+            self.__tela_aluguel.mostra_mensagem("Erro", "A data de início do intervalo não pode ser posterior à data final.")
             return []
         
         for aluguel in self.__alugueis:
@@ -205,18 +205,10 @@ class ControladorAluguel():
                 if isinstance(aluguel.automovel, Moto):
                     valor_total += aluguel.automovel.seguro_adicional * dias_aluguel
 
-                alugueis_no_intervalo.append(aluguel)
-                self.__tela_aluguel.mostra_aluguel({
-                    "nome": aluguel.cliente.nome,
-                    "cpf": aluguel.cliente.cpf,
-                    "placa": aluguel.automovel.placa,
-                    "data_inicio": aluguel.data_inicio.strftime("%d/%m/%Y"),
-                    "data_final": aluguel.data_final.strftime("%d/%m/%Y"),
-                    "valor_total": valor_total
-                })
+                self.__tela_aluguel.listar_alugueis
 
         if len(alugueis_no_intervalo) == 0:
-            self.__tela_aluguel.mostra_mensagem("\nNão há aluguéis nesse intervalo.")
+            self.__tela_aluguel.mostra_mensagem("Atenção", "Não há aluguéis nesse intervalo.")
             return 
 
     # Retornar ao menu principal

@@ -59,6 +59,6 @@ class ControladorSistema:
             elif opcao == 3:
                 self.__controlador_alugueis.abre_tela()
             elif opcao == 0:
-                self.__tela_sistema.mostra_mensagem("\nSistema encerrado")
+                self.__tela_sistema.mostra_mensagem("Encerrando", "Sistema encerrado")
                 break
             

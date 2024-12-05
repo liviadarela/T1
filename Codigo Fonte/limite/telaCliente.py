@@ -65,21 +65,31 @@ class TelaCliente:
                 else:
                     sg.popup("Erro", "Todos os campos devem ser preenchidos.")
 
-    def mostra_cliente(self, dados_cliente):
-        # Layout para exibir os dados do cliente
+    def mostra_cliente(self,dados_clientes):
+        cliente_layout = []
+
+        for cliente in dados_clientes:
+            cliente_layout.append([sg.Text(f"Nome: {cliente['nome']}")])
+            cliente_layout.append([sg.Text(f"CPF: {cliente['cpf']}")])
+            cliente_layout.append([sg.Text(f"Data de Nascimento: {cliente['data_nascimento']}")])
+            cliente_layout.append([sg.Text(f"Endereço: {cliente['endereco']}")])
+            cliente_layout.append([sg.Text(f"CNH: {cliente['numero_cnh']}")])
+            cliente_layout.append([sg.Text(f"Categoria CNH: {cliente['categoria_cnh']}")])
+            cliente_layout.append([sg.Text(f"Validade CNH: {cliente['validade_cnh']}")])
+            cliente_layout.append([sg.HorizontalSeparator()])  # Separador entre os clientes
+
         layout = [
-            [sg.Text("-------- CLIENTE ----------")],
-            [sg.Text(f"Nome: {dados_cliente['nome']}")],
-            [sg.Text(f"CPF: {dados_cliente['cpf']}")],
-            [sg.Text(f"Data de Nascimento: {dados_cliente['data_nascimento']}")],
-            [sg.Text(f"Endereço: {dados_cliente['endereco']}")],
-            [sg.Text(f"CNH: {dados_cliente['numero_cnh']}")],
-            [sg.Text(f"Categoria CNH: {dados_cliente['categoria_cnh']}")],
-            [sg.Text(f"Validade CNH: {dados_cliente['validade_cnh']}")],
+            [sg.Text("-------- LISTA DE CLIENTES --------")],
+            [sg.Column(
+                cliente_layout,
+                size=(500, 300),  # Tamanho visível da lista
+                scrollable=True,
+                vertical_scroll_only=True
+            )],
             [sg.Button("Fechar")]
         ]
 
-        window = sg.Window("Detalhes do Cliente", layout)
+        window = sg.Window("Lista de Clientes", layout)
 
         while True:
             event, _ = window.read()

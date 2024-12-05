@@ -95,18 +95,23 @@ class ControladorCliente():
 
     def lista_clientes(self):
         if not self.__clientes:
-            self.__tela_cliente.mostra_mensagem("Aviso", "Lista de clientes está vazia.")
-        else:
-            for cliente in self.__clientes:
-                self.__tela_cliente.mostra_cliente({
-                    "nome": cliente.nome,
-                    "cpf": cliente.cpf,
-                    "data_nascimento": cliente.data_nascimento.strftime("%d/%m/%Y"),
-                    "endereco": cliente.endereco,
-                    "numero_cnh": cliente.cnh.numero,
-                    "categoria_cnh": cliente.cnh.categoria,
-                    "validade_cnh": cliente.cnh.validade.strftime("%d/%m/%Y")
-                })
+            self.__tela_cliente.mostra_mensagem("Atenção", "Nenhum cliente cadastrado.")
+            return
+
+        dados_clientes = [
+            {
+                "nome": cliente.nome,
+                "cpf": cliente.cpf,
+                "data_nascimento": cliente.data_nascimento.strftime("%d/%m/%Y"),
+                "endereco": cliente.endereco,
+                "numero_cnh": cliente.cnh.numero,
+                "categoria_cnh": cliente.cnh.categoria,
+                "validade_cnh": cliente.cnh.validade.strftime("%d/%m/%Y")
+            }
+            for cliente in self.__clientes
+        ]
+
+        self.__tela_cliente.mostra_cliente(dados_clientes)
 
     def excluir_cliente(self):
         try:
