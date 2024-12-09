@@ -85,8 +85,8 @@ class TelaCarro(TelaAutomovel):
 
     def listarcarros(self, frota_carros):
         carros_exibicao = [
-            [sg.Text(f"CARRO--------------\nPlaca: {carro.placa}\nModelo: {carro.modelo}\nMarca: {carro.marca}\nAno: {carro.ano}, "
-                    f"\nValor por dia: R$ {carro.valor_por_dia:.2f}\nCategoria: {carro.categoria}\nStatus: {carro.status}\n\n")]
+            [sg.Text(f"CARRO--------------\n\nPlaca: {carro.placa}\n\nModelo: {carro.modelo}\n\nMarca: {carro.marca}\n\nAno: {carro.ano}, "
+                    f"\n\nValor por dia: R$ {carro.valor_por_dia:.2f}\n\nCategoria: {carro.categoria}\n\nStatus: {carro.status}\n\n")]
             for carro in frota_carros
         ]
 

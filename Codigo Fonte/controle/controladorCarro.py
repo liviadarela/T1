@@ -3,6 +3,7 @@ from exception.dadosInvalidosException import DadosInvalidoException
 from entidades.carro import Carro
 from limite.telaCarro import TelaCarro
 from controle.controladorAutomovel import ControladorAutomovel
+from daos.carroDAO import CarroDAO
 
 
 #classe ControladorCarro realiza operações específicas para o gerenciamento de carros, 
@@ -13,15 +14,14 @@ from controle.controladorAutomovel import ControladorAutomovel
 class ControladorCarro(ControladorAutomovel):
     def __init__(self, controlador_sistema):
         super().__init__() 
-        self.__frota_carros = []
+        self.__carro_dao = CarroDAO()
         self.__tela_carro = TelaCarro()
 
     def incluir_automovel(self):
         try:
             while True:
-                #pega os dados do carro através da tela 
                 dados_carro = self.__tela_carro.pega_informacao_automovel()
-                if dados_carro == None:
+                if dados_carro is None:
                     break
 
                 for campo, valor in dados_carro.items():
@@ -60,7 +60,7 @@ class ControladorCarro(ControladorAutomovel):
                 )
 
                 # Adiciona o carro à frota
-                self.__frota_carros.append(carro)
+                self.__carro_dao.add(placa, carro)
                 self.__tela_carro.mostra_mensagem("Sucesso", "Carro incluído!")
                 break
         except DadosInvalidoException as e:
@@ -69,24 +69,19 @@ class ControladorCarro(ControladorAutomovel):
     def excluir_automovel(self):
         # metodo para excluir um carro da frota
         placa_automovel = self.__tela_carro.seleciona_automovel()
-        automovel_encontrado = False
-
-        # Busca o carro na frota pelo número da placa
-        for automovel in self.__frota_carros:
-            if automovel.placa == placa_automovel:
-                self.__frota_carros.remove(automovel)
-                self.__tela_carro.mostra_mensagem("Sucesso", "Carro excluído!")
-                automovel_encontrado = True
-                break
-
-        if not automovel_encontrado:
+        if self.pega_carro_placa(placa_automovel):
+            self.__carro_dao.remove(placa_automovel)
+            self.__tela_carro.mostra_mensagem("Sucesso", "Carro excluído!")
+        else:
             self.__tela_carro.mostra_mensagem("Aviso", "Carro não encontrado")
 
     def listar(self):
-        if not self.__frota_carros:
-            self.__tela_carro.mostra_mensagem("Aviso", "Frota de carros está vazia")
-        self.__tela_carro.listarcarros(self.__frota_carros)
-
+        carros = self.__carro_dao.get_all()  # Buscando todas as motos do DAO
+        if not carros:
+            self.__tela_carro.mostra_mensagem("Aviso", "Frota de carros está vazia.")
+        else:
+            self.__tela_carro.listarcarros(carros)  # Listando as motos através da tela
+    
     def retornar(self):
         return 
     
@@ -108,7 +103,5 @@ class ControladorCarro(ControladorAutomovel):
                     break
 
     def pega_carro_placa(self, placa:str):
-        for carro in self.__frota_carros:
-            if carro.placa == placa:
-                return carro
-        return None
+        carro = self.__carro_dao.get(placa)
+        return carro if carro else None

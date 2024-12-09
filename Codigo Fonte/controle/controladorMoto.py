@@ -2,11 +2,13 @@ from entidades.moto import Moto
 from limite.telaMoto import TelaMoto
 from controle.controladorAutomovel import ControladorAutomovel
 from exception.dadosInvalidosException import DadosInvalidoException
+from daos.motoDAO import MotoDAO
+
 
 class ControladorMoto(ControladorAutomovel):
     def __init__(self, controlador_sistema):
         super().__init__()
-        self.__frota_motos = []
+        self.__moto_dao = MotoDAO()  # instanciando o DAO para gerenciar a persistência
         self.__tela_moto = TelaMoto()
 
     def incluir_automovel(self):
@@ -30,7 +32,7 @@ class ControladorMoto(ControladorAutomovel):
                     raise DadosInvalidoException("Seguro adicional deve ser um valor positivo.")
                 
                 ano = int(dados_moto["ano"])
-                if ano < 1800 or ano >2026:
+                if ano < 1800 or ano > 2026:
                     raise DadosInvalidoException("Ano inválido.")
                 
                 valor_por_dia = float(dados_moto["valor_por_dia"])
@@ -46,32 +48,37 @@ class ControladorMoto(ControladorAutomovel):
                     seguro_adicional=seguro_adicional
                 )
 
-                self.__frota_motos.append(moto)
+                self.__moto_dao.add(placa, moto)  # Salvando a moto no DAO
                 self.__tela_moto.mostra_mensagem("Sucesso", "Moto incluída!")
                 break
         except DadosInvalidoException as e:
             self.__tela_moto.mostra_mensagem("Erro", e)
 
+
     def excluir_automovel(self):
         placa_automovel = self.__tela_moto.seleciona_automovel()
-        automovel_encontrado = False
-
-        for automovel in self.__frota_motos:
-            if automovel.placa == placa_automovel:
-                self.__frota_motos.remove(automovel)
-                self.__tela_moto.mostra_mensagem("Sucesso", "Moto excluída!")
-                automovel_encontrado = True
-                break
-
-        if not automovel_encontrado:
+        moto_encontrada = self.pega_moto_placa(placa_automovel)
+        
+        if moto_encontrada:
+            self.__moto_dao.excluir(moto_encontrada)  # Excluindo a moto através do DAO
+            self.__tela_moto.mostra_mensagem("Sucesso", "Moto excluída!")
+        else:
             self.__tela_moto.mostra_mensagem("Aviso", "Moto não encontrada.")
 
-    def listar(self):
-        if not self.__frota_motos:
+        motos = self.__moto_dao.buscar_todos()  # Buscando todas as motos do DAO
+        if not motos:
             self.__tela_moto.mostra_mensagem("Aviso", "Frota de motos está vazia.")
         else:
-            self.__tela_moto.listar_motos(self.__frota_motos)
+            self.__tela_moto.listar_motos(motos)  # Listando as motos através da tela
 
+    def listar(self):
+        motos = self.__moto_dao.get_all()  # Buscando todas as motos do DAO
+        if not motos:
+            self.__tela_moto.mostra_mensagem("Aviso", "Frota de motos está vazia.")
+        else:
+            self.__tela_moto.listar_motos(motos)  # Listando as motos através da tela
+
+    
     def retornar(self):
         return
 
@@ -92,7 +99,8 @@ class ControladorMoto(ControladorAutomovel):
                     break
 
     def pega_moto_placa(self, placa: str):
-        for moto in self.__frota_motos:
+        motos = self.__moto_dao.get_all()  # Buscando todas as motos do DAO
+        for moto in motos:
             if moto.placa == placa:
                 return moto
         return None

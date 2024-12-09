@@ -79,10 +79,10 @@ class TelaCliente:
             cliente_layout.append([sg.HorizontalSeparator()])  # Separador entre os clientes
 
         layout = [
-            [sg.Text("-------- LISTA DE CLIENTES --------")],
+            [sg.Text("-------- LISTA DE CLIENTES --------",font=("Helvetica", 16))],
             [sg.Column(
                 cliente_layout,
-                size=(500, 300),  # Tamanho visível da lista
+                size=(600, 300),  # Tamanho visível da lista
                 scrollable=True,
                 vertical_scroll_only=True
             )],

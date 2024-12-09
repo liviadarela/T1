@@ -1,20 +1,19 @@
 from exception.clienteNaoEncontradoException import ClienteNaoEncontradoException
 from exception.dadosInvalidosException import DadosInvalidoException
 from limite.telaCliente import TelaCliente
+from daos.clienteDAO import ClienteDAO
 from entidades.cliente import Cliente
 from entidades.cnh import Cnh
 from datetime import datetime
 
 class ControladorCliente():
-    def __init__(self, controladorSistema):  
-        self.__clientes = []  
+    def __init__(self, controladorSistema):    
+        self.__cliente_dao = ClienteDAO()
         self.__tela_cliente = TelaCliente() 
         self.__controlador_sistema = controladorSistema  
 
     def pega_cliente_por_cpf(self, cpf):
-        for cliente in self.__clientes:
-            if cliente.cpf == cpf:
-                return cliente
+        return self.__cliente_dao.get(cpf)
 
     # método para incluir um novo cliente 
     def incluir_cliente(self):
@@ -27,9 +26,8 @@ class ControladorCliente():
                     raise DadosInvalidoException("O nome deve conter apenas letras.")
 
                 cpf = dados_cliente["cpf"]
-                for cliente in self.__clientes:
-                    if cliente.cpf == cpf:
-                        raise DadosInvalidoException("CPF já cadastrado.")
+                if self.pega_cliente_por_cpf(cpf):
+                    raise DadosInvalidoException("CPF já cadastrado.")
                 
                 if not cpf.isdigit() or len(cpf) != 11:
                     raise DadosInvalidoException("O CPF deve conter apenas 11 dígitos numéricos.")
@@ -43,7 +41,7 @@ class ControladorCliente():
                 cnh = Cnh(dados_cliente["numero_cnh"], dados_cliente["categoria_cnh"], validade_cnh)
                 cliente = Cliente(nome, cpf, data_nascimento, dados_cliente["endereco"], cnh)
 
-                self.__clientes.append(cliente)
+                self.__cliente_dao.add(cpf, cliente)
                 self.__tela_cliente.mostra_mensagem("Sucesso", "Cliente incluído com sucesso!")
                 break
             except DadosInvalidoException as e:
@@ -72,13 +70,8 @@ class ControladorCliente():
                     cliente.nome = nome
 
                     novo_cpf = novos_dados_cliente["cpf"]
-                    if novo_cpf != cliente.cpf:
-                        for outro_cliente in self.__clientes:
-                            if outro_cliente.cpf == novo_cpf:
-                                raise DadosInvalidoException("CPF já cadastrado.")
-                        
-                    if not novo_cpf.isdigit() or len(novo_cpf) != 11:
-                        raise DadosInvalidoException("O CPF deve conter exatamente 11 dígitos numéricos.")
+                    if novo_cpf != cliente.cpf and self.pega_cliente_por_cpf(novo_cpf):
+                        raise DadosInvalidoException("CPF já cadastrado.")
                     cliente.cpf = novo_cpf
 
                     cliente.data_nascimento = self.__converter_data(novos_dados_cliente["data_nascimento"])
@@ -88,13 +81,15 @@ class ControladorCliente():
                     validade_cnh = self.__converter_data(novos_dados_cliente["validade_cnh"])
                     cliente.cnh = Cnh(novos_dados_cliente["numero_cnh"], novos_dados_cliente["categoria_cnh"], validade_cnh)
 
+                    self.__cliente_dao.update(novo_cpf, cliente)  # Atualiza no DAO
                     self.__tela_cliente.mostra_mensagem("Sucesso", "Cliente alterado com sucesso!")
                     break
                 except DadosInvalidoException as e:
-                    self.__tela_cliente.mostra_mensagem("Erro", e)
+                    self.__tela_cliente.mostra_mensagem("Erro", str(e))
 
     def lista_clientes(self):
-        if not self.__clientes:
+        clientes = self.__cliente_dao.get_all()
+        if not clientes:
             self.__tela_cliente.mostra_mensagem("Atenção", "Nenhum cliente cadastrado.")
             return
 
@@ -108,7 +103,7 @@ class ControladorCliente():
                 "categoria_cnh": cliente.cnh.categoria,
                 "validade_cnh": cliente.cnh.validade.strftime("%d/%m/%Y")
             }
-            for cliente in self.__clientes
+            for cliente in clientes
         ]
 
         self.__tela_cliente.mostra_cliente(dados_clientes)
@@ -122,7 +117,7 @@ class ControladorCliente():
             if cliente is None:  # Isso é redundante, mas você pode manter para lógica explícita
                 raise ClienteNaoEncontradoException("Cliente não encontrado!")
 
-            self.__clientes.remove(cliente)
+            self.__cliente_dao.remove(cpf_cliente)
             self.__tela_cliente.mostra_mensagem("Sucesso", "Cliente excluído com sucesso!")
         except ClienteNaoEncontradoException as e:
             self.__tela_cliente.mostra_mensagem("Erro", e)

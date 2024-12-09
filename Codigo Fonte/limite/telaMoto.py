@@ -82,14 +82,14 @@ class TelaMoto(TelaAutomovel):
 
     def listar_motos(self, frota_motos):
         motos_exibicao = [
-            [sg.Text(f"MOTO--------------\nPlaca: {moto.placa}\nModelo: {moto.modelo}\nMarca: {moto.marca}\nAno: {moto.ano}, "
-                    f"\nValor por dia: R$ {moto.valor_por_dia:.2f}\nSeguro Adicional: {moto.seguro_adicional}\nStatus: {moto.status}\n\n")]
+            [sg.Text(f"MOTO--------------\n\nPlaca: {moto.placa}\n\nModelo: {moto.modelo}\n\nMarca: {moto.marca}\n\nAno: {moto.ano}, "
+                    f"\n\nValor por dia: R$ {moto.valor_por_dia:.2f}\n\nSeguro Adicional: {moto.seguro_adicional}\n\nStatus: {moto.status}\n\n")]
             for moto in frota_motos
         ]
 
         # Define o layout com uma coluna rolável
         layout = [
-            [sg.Text("------ FROTA DE CARROS ------", font=("Helvetica", 16))],
+            [sg.Text("------ FROTA DE MOTOS ------", font=("Helvetica", 16))],
             [sg.Column(motos_exibicao, size=(600, 300), scrollable=True, vertical_scroll_only=True)],
             [sg.Button("Fechar")]
         ]

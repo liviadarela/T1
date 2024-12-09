@@ -2,11 +2,12 @@ from entidades.caminhao import Caminhao
 from limite.telaCaminhao import TelaCaminhao
 from controle.controladorAutomovel import ControladorAutomovel
 from exception.dadosInvalidosException import DadosInvalidoException
+from daos.caminhaoDAO import CaminhaoDAO
 
 class ControladorCaminhao(ControladorAutomovel):
     def __init__(self, controlador_sistema):
         super().__init__()
-        self.__frota_caminhoes = []
+        self.__caminhao_dao = CaminhaoDAO()
         self.__tela_caminhao = TelaCaminhao()
 
     def incluir_automovel(self):
@@ -42,7 +43,7 @@ class ControladorCaminhao(ControladorAutomovel):
                     numero_de_eixos=numero_de_eixos
                 )
 
-                self.__frota_caminhoes.append(caminhao)
+                self.__caminhao_dao.add(placa, caminhao)
                 self.__tela_caminhao.mostra_mensagem("Sucesso", "Caminhão incluído!")
                 break
         except DadosInvalidoException as e:
@@ -50,23 +51,18 @@ class ControladorCaminhao(ControladorAutomovel):
 
     def excluir_automovel(self):
         placa_automovel = self.__tela_caminhao.seleciona_automovel()
-        automovel_encontrado = False
-
-        for automovel in self.__frota_caminhoes:
-            if automovel.placa == placa_automovel:
-                self.__frota_caminhoes.remove(automovel)
-                self.__tela_caminhao.mostra_mensagem("Sucesso", "Caminhão excluído!")
-                automovel_encontrado = True
-                break
-
-        if not automovel_encontrado:
+        if self.pega_caminhao_placa(placa_automovel):
+            self.__caminhao_dao.remove(placa_automovel)  # Remove o caminhão do CaminhaoDAO
+            self.__tela_caminhao.mostra_mensagem("Sucesso", "Caminhão excluído!")
+        else:
             self.__tela_caminhao.mostra_mensagem("Aviso", "Caminhão não encontrado.")
 
     def listar(self):
-        if not self.__frota_caminhoes:
-            self.__tela_caminhao.mostra_mensagem("Aviso", "Frota de caminhões está vazia.")
+        caminhoes = self.__caminhao_dao.get_all()  # Buscando todas as motos do DAO
+        if not caminhoes:
+            self.__tela_caminhao.mostra_mensagem("Aviso", "Frota de motos está vazia.")
         else:
-            self.__tela_caminhao.listar_caminhoes(self.__frota_caminhoes)
+            self.__tela_caminhao.listar_caminhoes(caminhoes)  # Listando as motos através da tela
 
     def retornar(self):
         return
@@ -88,7 +84,5 @@ class ControladorCaminhao(ControladorAutomovel):
                     break
 
     def pega_caminhao_placa(self, placa: str):
-        for caminhao in self.__frota_caminhoes:
-            if caminhao.placa == placa:
-                return caminhao
-        return None
+        caminhao = self.__caminhao_dao.get(placa)  # Recupera o caminhão pelo número da placa
+        return caminhao if caminhao else None
