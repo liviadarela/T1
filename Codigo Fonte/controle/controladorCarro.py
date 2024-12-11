@@ -76,11 +76,11 @@ class ControladorCarro(ControladorAutomovel):
             self.__tela_carro.mostra_mensagem("Aviso", "Carro não encontrado")
 
     def listar(self):
-        carros = self.__carro_dao.get_all()  # Buscando todas as motos do DAO
+        carros = self.__carro_dao.get_all()  # busca todos os carros do DAO
         if not carros:
             self.__tela_carro.mostra_mensagem("Aviso", "Frota de carros está vazia.")
         else:
-            self.__tela_carro.listarcarros(carros)  # Listando as motos através da tela
+            self.__tela_carro.listarcarros(carros)  # Lista os todos os carros através da tela
     
     def retornar(self):
         return 

@@ -79,8 +79,8 @@ class TelaCarro(TelaAutomovel):
                 break
         window.close()
     
+    #exibe uma mensagem ao usuário
     def mostra_mensagem(self, titulo: str, mensagem: str):
-        """Exibe uma mensagem ao usuário."""
         sg.popup(f"--- {titulo.upper()} ---\n\n{mensagem}\n")
 
     def listarcarros(self, frota_carros):
@@ -90,7 +90,7 @@ class TelaCarro(TelaAutomovel):
             for carro in frota_carros
         ]
 
-        # Define o layout com uma coluna rolável
+        # define o layout com uma coluna rolável
         layout = [
             [sg.Text("------ FROTA DE CARROS ------", font=("Helvetica", 16))],
             [sg.Column(carros_exibicao, size=(600, 300), scrollable=True, vertical_scroll_only=True)],

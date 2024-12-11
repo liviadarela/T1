@@ -19,7 +19,7 @@ class ControladorMoto(ControladorAutomovel):
                     break
 
                 for campo, valor in dados_moto.items():
-                    if not valor:  # Verifica se está vazio
+                    if not valor:  
                         raise DadosInvalidoException(f"O campo '{campo}' não pode estar vazio.")
                     
                 placa = dados_moto["placa"]
@@ -48,7 +48,7 @@ class ControladorMoto(ControladorAutomovel):
                     seguro_adicional=seguro_adicional
                 )
 
-                self.__moto_dao.add(placa, moto)  # Salvando a moto no DAO
+                self.__moto_dao.add(placa, moto)  
                 self.__tela_moto.mostra_mensagem("Sucesso", "Moto incluída!")
                 break
         except DadosInvalidoException as e:
@@ -60,23 +60,23 @@ class ControladorMoto(ControladorAutomovel):
         moto_encontrada = self.pega_moto_placa(placa_automovel)
         
         if moto_encontrada:
-            self.__moto_dao.excluir(moto_encontrada)  # Excluindo a moto através do DAO
+            self.__moto_dao.remove(placa_automovel)  
             self.__tela_moto.mostra_mensagem("Sucesso", "Moto excluída!")
         else:
             self.__tela_moto.mostra_mensagem("Aviso", "Moto não encontrada.")
 
-        motos = self.__moto_dao.buscar_todos()  # Buscando todas as motos do DAO
+        motos = self.__moto_dao.get_all()  
         if not motos:
             self.__tela_moto.mostra_mensagem("Aviso", "Frota de motos está vazia.")
         else:
-            self.__tela_moto.listar_motos(motos)  # Listando as motos através da tela
+            self.__tela_moto.listar_motos(motos)  
 
     def listar(self):
-        motos = self.__moto_dao.get_all()  # Buscando todas as motos do DAO
+        motos = self.__moto_dao.get_all()  
         if not motos:
             self.__tela_moto.mostra_mensagem("Aviso", "Frota de motos está vazia.")
         else:
-            self.__tela_moto.listar_motos(motos)  # Listando as motos através da tela
+            self.__tela_moto.listar_motos(motos)  
 
     
     def retornar(self):
@@ -99,7 +99,7 @@ class ControladorMoto(ControladorAutomovel):
                     break
 
     def pega_moto_placa(self, placa: str):
-        motos = self.__moto_dao.get_all()  # Buscando todas as motos do DAO
+        motos = self.__moto_dao.get_all()  
         for moto in motos:
             if moto.placa == placa:
                 return moto

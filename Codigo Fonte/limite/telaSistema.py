@@ -34,5 +34,4 @@ class TelaSistema:
         return int(event) if event is not None else 0
     
     def mostra_mensagem(self, titulo: str, mensagem: str):
-        """Exibe uma mensagem ao usuário."""
         sg.popup(f"--- {titulo.upper()} ---\n\n{mensagem}\n")

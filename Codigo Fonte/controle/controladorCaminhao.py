@@ -58,11 +58,11 @@ class ControladorCaminhao(ControladorAutomovel):
             self.__tela_caminhao.mostra_mensagem("Aviso", "Caminhão não encontrado.")
 
     def listar(self):
-        caminhoes = self.__caminhao_dao.get_all()  # Buscando todas as motos do DAO
+        caminhoes = self.__caminhao_dao.get_all()  # busca os caminhoes do DAO
         if not caminhoes:
-            self.__tela_caminhao.mostra_mensagem("Aviso", "Frota de motos está vazia.")
+            self.__tela_caminhao.mostra_mensagem("Aviso", "Frota de Caminhões está vazia.")
         else:
-            self.__tela_caminhao.listar_caminhoes(caminhoes)  # Listando as motos através da tela
+            self.__tela_caminhao.listar_caminhoes(caminhoes)  #listando os caminhoes pela da tela
 
     def retornar(self):
         return

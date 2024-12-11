@@ -3,7 +3,6 @@ from limite.telaAutomovel import TelaAutomovel
 
 class TelaMoto(TelaAutomovel):
     def tela_opcoes(self):
-        # Método para exibir as opções específicas para motos
         layout = [
             [sg.Text("\n--------- OPÇÕES MOTOS ---------")],
             [sg.Text("Escolha a opção:")],
@@ -16,7 +15,7 @@ class TelaMoto(TelaAutomovel):
             event, _ = window.read()
             if event in (sg.WINDOW_CLOSED, "Voltar"):
                 window.close()
-                return 0  # Retorna ao menu principal
+                return 0 
 
             if event == "Cadastrar moto nova":
                 window.close()
@@ -31,7 +30,6 @@ class TelaMoto(TelaAutomovel):
                 return 3
 
     def pega_informacao_automovel(self):
-        # Método para coletar informações da moto
         dados_comuns = super().pega_informacao_automovel()
         if dados_comuns is None:
             return None
@@ -55,7 +53,6 @@ class TelaMoto(TelaAutomovel):
                 return dados_comuns
 
     def mostra_automovel(self, dados_automovel):
-        # Método para exibir os detalhes da moto
         layout = [
             [sg.Text("MOTO ---------------------")],
             [sg.Text(f"Placa: {dados_automovel['placa']}")],
@@ -77,7 +74,6 @@ class TelaMoto(TelaAutomovel):
         window.close()
 
     def mostra_mensagem(self, titulo: str, mensagem: str):
-        """Exibe uma mensagem ao usuário."""
         sg.popup(f"--- {titulo.upper()} ---\n\n{mensagem}\n")
 
     def listar_motos(self, frota_motos):
@@ -87,7 +83,6 @@ class TelaMoto(TelaAutomovel):
             for moto in frota_motos
         ]
 
-        # Define o layout com uma coluna rolável
         layout = [
             [sg.Text("------ FROTA DE MOTOS ------", font=("Helvetica", 16))],
             [sg.Column(motos_exibicao, size=(600, 300), scrollable=True, vertical_scroll_only=True)],

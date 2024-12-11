@@ -77,13 +77,12 @@ class TelaCaminhao(TelaAutomovel):
         window.close()
 
     def mostra_mensagem(self, titulo: str, mensagem: str):
-        """Exibe uma mensagem ao usuário."""
         sg.popup(f"--- {titulo.upper()} ---\n\n{mensagem}\n")
 
     def listar_caminhoes(self, frota_caminhoes):
         caminhoes_exibicao = [
-            [sg.Text(f"CAMINHÃO--------------\nPlaca: {caminhao.placa}\nModelo: {caminhao.modelo}\nMarca: {caminhao.marca}\nAno: {caminhao.ano}, "
-                    f"\nValor por dia: R$ {caminhao.valor_por_dia:.2f}\nNumero de Eixos: {caminhao.numero_de_eixos}\nStatus: {caminhao.status}\n\n")]
+            [sg.Text(f"CAMINHÃO--------------\n\nPlaca: {caminhao.placa}\n\nModelo: {caminhao.modelo}\n\nMarca: {caminhao.marca}\n\nAno: {caminhao.ano}, "
+                    f"\n\nValor por dia: R$ {caminhao.valor_por_dia:.2f}\n\nNumero de Eixos: {caminhao.numero_de_eixos}\n\nStatus: {caminhao.status}\n\n")]
             for caminhao in frota_caminhoes
         ]
 

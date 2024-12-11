@@ -16,23 +16,23 @@ class TelaCliente:
             event, _ = window.read()
             if event in (sg.WINDOW_CLOSED, "Retornar"):
                 window.close()
-                return 0  # Retornar ao menu anterior
+                return 0  # retornar ao menu anterior
 
             if event == "Incluir Cliente":
                 window.close()
-                return 1  # Opção de incluir cliente
+                return 1  # incluir cliente
 
             if event == "Alterar Cliente":
                 window.close()
-                return 2  # Opção de alterar cliente
+                return 2  # alterar cliente
 
             if event == "Listar Clientes":
                 window.close()
-                return 3  # Opção de listar clientes
+                return 3  # listar clientes
 
             if event == "Excluir Cliente":
                 window.close()
-                return 4  # Opção de excluir cliente
+                return 4  #  excluir cliente
 
     def pega_dados_cliente(self):
         # Layout para entrada dos dados do cliente
@@ -54,16 +54,15 @@ class TelaCliente:
             event, values = window.read()
 
             if event in (sg.WINDOW_CLOSED, "Cancelar"):
-                window.close()
-                return self.tela_opcoes() # Caso o usuário cancele
+                break
 
             if event == "Confirmar":
-                # Verifica se todos os campos estão preenchidos
                 if all(values[key].strip() for key in values):
                     window.close()
-                    return values  # Retorna os dados inseridos
+                    return values  
                 else:
                     sg.popup("Erro", "Todos os campos devem ser preenchidos.")
+        window.close()
 
     def mostra_cliente(self,dados_clientes):
         cliente_layout = []
@@ -82,7 +81,7 @@ class TelaCliente:
             [sg.Text("-------- LISTA DE CLIENTES --------",font=("Helvetica", 16))],
             [sg.Column(
                 cliente_layout,
-                size=(600, 300),  # Tamanho visível da lista
+                size=(600, 300),  
                 scrollable=True,
                 vertical_scroll_only=True
             )],
@@ -98,7 +97,7 @@ class TelaCliente:
         window.close()
 
     def seleciona_cliente(self):
-        # Layout para selecionar cliente pelo CPF
+        # layout para selecionar cliente pelo CPF
         layout = [
             [sg.Text("Informe o CPF do cliente que deseja selecionar (apenas números):")],
             [sg.InputText(key="cpf")],
@@ -112,16 +111,15 @@ class TelaCliente:
 
             if event in (sg.WINDOW_CLOSED, "Cancelar"):
                 window.close()
-                return self.tela_opcoes()  # Caso o usuário cancele
+                return self.tela_opcoes() 
 
             if event == "Confirmar":
                 cpf = values["cpf"]
                 if cpf.isdigit() and len(cpf) == 11:
                     window.close()
-                    return cpf  # Retorna o CPF informado
+                    return cpf  
                 else:
                     sg.popup("Erro", "CPF inválido. Certifique-se de digitar apenas 11 números.")
 
     def mostra_mensagem(self, titulo: str, mensagem: str):
-        """Exibe uma mensagem ao usuário."""
         sg.popup(f"--- {titulo.upper()} ---\n\n{mensagem}\n")

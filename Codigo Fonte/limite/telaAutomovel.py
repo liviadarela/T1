@@ -30,7 +30,6 @@ class TelaAutomovel():
                 ano = int(values['ano']) if values['ano'].isdigit() else 0
                 valor_por_dia = values['valor_por_dia']
 
-                # Retorna um dicionário com os dados do veículo
                 window.close()
                 return {
                     "placa": placa,

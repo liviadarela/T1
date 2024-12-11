@@ -20,7 +20,7 @@ class ControladorAluguel():
         self.__controlador_carros = self.__controlador_sistema.controlador_carros
         self.__controlador_motos = self.__controlador_sistema.controlador_motos
         self.__controlador_caminhoes = self.__controlador_sistema.controlador_caminhoes
-        self.__aluguel_dao = AluguelDAO() # usa o DAO para persistência de aluguéis
+        self.__aluguel_dao = AluguelDAO() # sem o uso de lista, agora usando o DAO para persistência de aluguéis
     
     def realizar_aluguel(self):
         while True:
@@ -124,29 +124,29 @@ class ControladorAluguel():
             novos_dados = self.__tela_aluguel.pega_dados_aluguel()
 
             try:
-                # Verifica se o CPF e o automóvel foram alterados
+                #verifica se o CPF e o automóvel foram alterados
                 cpf_cliente_novo = novos_dados["cliente"]
                 automovel_novo = novos_dados["automovel"]
 
                 if cpf_cliente_novo != cpf_original:
                     raise DadosInvalidoException("O CPF não pode ser alterado. Para fazer isso, faça a devolução e realize um novo aluguel.")
 
-                # Se o automóvel for diferente, mostra um aviso de erro
+                # se o automóvel for diferente, mostra um aviso de erro
                 if automovel_novo != aluguel_encontrado.automovel.placa:
                     raise DadosInvalidoException("O automóvel não pode ser alterado. Para fazer isso, faça a devolução e realize um novo aluguel")
 
-                # Converte e valida as novas datas.
+                #Converte e valida as novas datas.
                 data_inicio = datetime.strptime(novos_dados["data_inicio"], "%d/%m/%Y").date()
                 data_final = datetime.strptime(novos_dados["data_final"], "%d/%m/%Y").date()
 
                 if data_inicio > data_final:
                     raise DadosInvalidoException("A data de início do aluguel não pode ser posterior à data final.")
 
-                # Atualiza as datas do aluguel
+                # atualiza as datas do aluguel
                 aluguel_encontrado.data_inicio = data_inicio
                 aluguel_encontrado.data_final = data_final
 
-                self.__tela_aluguel.mostra_mensagem("\nDatas do aluguel alteradas com sucesso.")
+                self.__tela_aluguel.mostra_mensagem("Sucesso","Datas do aluguel alteradas.")
             
             except DadosInvalidoException as e:
                 self.__tela_aluguel.mostra_mensagem(f"Erro", e)
@@ -176,7 +176,7 @@ class ControladorAluguel():
                 break
         
         if aluguel_encontrado is not None:
-            self.__aluguel_dao.remove(aluguel_encontrado)
+            self.__aluguel_dao.remove(cpf)
             aluguel_encontrado.automovel.status = "Disponível"
             self.__tela_aluguel.mostra_mensagem("\nSucesso:","Devolução realizada")
         else:
